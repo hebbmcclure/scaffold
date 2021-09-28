@@ -13,3 +13,4 @@ if [ -n "$PREVIOUS_VERSION" ]; then BUMP_TYPE=$(npx -p conventional-changelog-an
   else
     echo "A problem was encountered when determining the version bump. Please check logs and try again.";
     return 1;
+fi
