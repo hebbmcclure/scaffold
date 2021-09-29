@@ -1,5 +1,6 @@
 # Main deployment workflow for github actions. Only initiate a deployment after a merge commit against master is detected.
 name: Deploy
+on:
   push:
     branches:
       - master
