@@ -18,13 +18,13 @@ jobs:
 #          distribution: 'adopt'
 #      - name: Build and Test
 #        run: mvn -U --no-transfer-progress clean install
-#
-#  cofigure-git:
-#    runs-on: ubuntu-latest
+
+  cofigure-git:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-        name: Configure git
+      - name: Configure git
         run: |
           git config --global user.name 'Scaffold Deployment'
           git config --global user.email 'kgress88@gmail.com'
