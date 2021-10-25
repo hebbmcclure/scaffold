@@ -79,7 +79,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/kgress/scaffold.git</connection>
-        <url>scm:git:git://github.com/kgress/scaffold.git</url>
+        <url>scm:git:https://github.com/kgress/scaffold.git</url>
         <developerConnection>scm:git:git://github.com/kgress/scaffold.git</developerConnection>
     </scm>
 
