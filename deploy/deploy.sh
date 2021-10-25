@@ -7,7 +7,7 @@
     # Add a message to console with the next version number
     # Sets the new version for the release and deploys using the maven release profile
     # echo "Versioning artifacts with version $NEXT_VERSION";
-    NEXT_VERSION="9.99"
+    NEXT_VERSION="9.999"
     mvn -U --no-transfer-progress versions:set --define newVersion=${NEXT_VERSION};
     echo "Performing release for version $NEXT_VERSION";
     mvn -U --no-transfer-progress -Dtag=${NEXT_VERSION} deploy scm:tag;
