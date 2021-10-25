@@ -1,9 +1,9 @@
 # Main deployment workflow for github actions. Only initiate a deployment after a merge commit against master is detected.
 name: Deploy
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
 jobs:
   build-and-test:
@@ -42,16 +42,16 @@ jobs:
         with:
           node-version: 12
 
-      - name: Set up Sonatype
-        uses: actions/setup-java@v2
-        with: # running setup-java again overwrites the runners .m2/settings.xml
-          java-version: '11'
-          distribution: 'adopt'
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_KEYNAME }}
-          gpg-passphrase: GPG_PASSWORD
+      # - name: Set up Sonatype
+      #   uses: actions/setup-java@v2
+      #   with: # running setup-java again overwrites the runners .m2/settings.xml
+      #     java-version: '11'
+      #     distribution: 'adopt'
+      #     server-id: ossrh
+      #     server-username: OSSRH_USERNAME
+      #     server-password: OSSRH_PASSWORD
+      #     gpg-private-key: ${{ secrets.GPG_KEYNAME }}
+      #     gpg-passphrase: GPG_PASSWORD
 
       - name: Run the Deployment Script
         run: |
@@ -61,7 +61,7 @@ jobs:
           git config --global user.email 'kgress88@gmail.com'
           sh deploy/deploy.sh
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          # OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          # GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
