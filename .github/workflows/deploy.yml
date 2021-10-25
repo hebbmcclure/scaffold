@@ -42,16 +42,16 @@ jobs:
         with:
           node-version: 12
 
-      # - name: Set up Sonatype
-      #   uses: actions/setup-java@v2
-      #   with: # running setup-java again overwrites the runners .m2/settings.xml
-      #     java-version: '11'
-      #     distribution: 'adopt'
-      #     server-id: ossrh
-      #     server-username: OSSRH_USERNAME
-      #     server-password: OSSRH_PASSWORD
-      #     gpg-private-key: ${{ secrets.GPG_KEYNAME }}
-      #     gpg-passphrase: GPG_PASSWORD
+      - name: Set up Sonatype
+        uses: actions/setup-java@v2
+        with: # running setup-java again overwrites the runners .m2/settings.xml
+          java-version: '11'
+          distribution: 'adopt'
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_KEYNAME }}
+          gpg-passphrase: GPG_PASSWORD
 
       - name: Run the Deployment Script
         run: |
