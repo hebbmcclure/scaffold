@@ -10,7 +10,7 @@
     # mvn -U --no-transfer-progress versions:set --define newVersion=${NEXT_VERSION};
     NEXT_VERSION="9.99"
     echo "Performing release for version $NEXT_VERSION";
-    mvn -U --no-transfer-progress -P release -Dtag=${NEXT_VERSION} deploy scm:tag;
+    mvn -U --no-transfer-progress -Dtag=${NEXT_VERSION} deploy scm:tag;
   #else
     # echo "A problem was encountered when determining the version bump. Please check logs and try again.";
     # return 1;
