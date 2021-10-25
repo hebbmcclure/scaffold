@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - maven_scm_tag_fix 
+      - master
 
 jobs:
   build-and-test:
