@@ -79,7 +79,7 @@
 
     <scm>
         <connection>scm:git:ssh@github.com:kgress/scaffold.git</connection>
-        <url>scm:git:t@github.com:kgress/scaffold.git</url>
+        <url>scm:git:git@github.com:kgress/scaffold.git</url>
         <developerConnection>scm:git:ssh@github.com:kgress/scaffold.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
