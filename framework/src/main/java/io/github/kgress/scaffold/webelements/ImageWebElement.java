@@ -1,27 +1,47 @@
 package io.github.kgress.scaffold.webelements;
 
+import io.github.kgress.scaffold.BaseWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 /**
- * A strongly typed representation of an Image {@link WebElement}.
+ * Scaffold's strongly typed interpretation of an image element.
  */
-public class ImageWebElement extends AbstractWebElement {
+public class ImageWebElement extends BaseClickableWebElement {
 
-    public ImageWebElement(By by, WebElement parentElement) {
-        super(by, parentElement);
-    }
-
+    /**
+     * Creates a new {@link ImageWebElement}. It is highly recommended using {@link By#cssSelector(String)} over
+     * another method, such as {@link By#xpath(String)}, in almost all cases as it can be less flaky and less reliant
+     * on DOM hierarchy.
+     *
+     * @see BaseWebElement#BaseWebElement(String)
+     * @param cssSelector   the value of the {@link By#cssSelector(String)}
+     */
     public ImageWebElement(String cssSelector) {
         super(cssSelector);
     }
 
+    /**
+     * Use this constructor when you'd like to locate an element with a {@link By} method different from
+     * {@link By#cssSelector(String)}. We strongly recommend using {@link #ImageWebElement(String cssSelector)}
+     * in almost all cases.
+     *
+     * @see BaseWebElement#BaseWebElement(By)
+     * @param by    the {@link By} locator
+     */
     public ImageWebElement(By by) {
         super(by);
     }
 
-    public ImageWebElement(WebElement element) {
-        super(element);
+    /**
+     * Use this constructor when you'd like to locate an element with a child and parent {@link By} together. Useful
+     * when you want a more verbose element definition in context of your websites' DOM.
+     *
+     * @see BaseWebElement#BaseWebElement(By, By)
+     * @param by        the {@link By} locator for the child element
+     * @param parentBy  the {@link By} locator for the parent element
+     */
+    public ImageWebElement(By by, By parentBy) {
+        super(by, parentBy);
     }
 
     /**
@@ -30,6 +50,6 @@ public class ImageWebElement extends AbstractWebElement {
      * @return the image source as {@link String}
      */
     public String getImageSource() {
-        return getWebElement().getAttribute("src");
+        return getRawWebElement().getAttribute("src");
     }
 }

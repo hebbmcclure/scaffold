@@ -2,11 +2,15 @@ package io.github.kgress.scaffold.webelements;
 
 import io.github.kgress.scaffold.BaseWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
- * Scaffold's strongly typed interpretation of a button element.
+ * This class represents base level clickable options and actions for elements that can be interacted with through
+ * a click. Clickable elements should also inherit all properties of a {@link BaseWebElement}.
+ *
+ * TODO add retry logic to click actions https://github.com/kgress/scaffold/issues/90
  */
-public class ButtonWebElement extends BaseClickableWebElement {
+public class BaseClickableWebElement extends BaseWebElement {
 
     /**
      * Creates a new {@link ButtonWebElement}. It is highly recommended using {@link By#cssSelector(String)} over
@@ -16,19 +20,19 @@ public class ButtonWebElement extends BaseClickableWebElement {
      * @see BaseWebElement#BaseWebElement(String)
      * @param cssSelector   the value of the {@link By#cssSelector(String)}
      */
-    public ButtonWebElement(String cssSelector) {
+    public BaseClickableWebElement(String cssSelector) {
         super(cssSelector);
     }
 
     /**
      * Use this constructor when you'd like to locate an element with a {@link By} method different from
-     * {@link By#cssSelector(String)}. We strongly recommend using {@link #ButtonWebElement(String)} in almost all
-     * cases.
+     * {@link By#cssSelector(String)}. We strongly recommend using {@link #BaseClickableWebElement(String)} in almost
+     * all cases.
      *
      * @see BaseWebElement#BaseWebElement(By)
      * @param by    the {@link By} locator
      */
-    public ButtonWebElement(By by) {
+    public BaseClickableWebElement(By by) {
         super(by);
     }
 
@@ -40,7 +44,22 @@ public class ButtonWebElement extends BaseClickableWebElement {
      * @param by        the {@link By} locator for the child element
      * @param parentBy  the {@link By} locator for the parent element
      */
-    public ButtonWebElement(By by, By parentBy) {
+    public BaseClickableWebElement(By by, By parentBy) {
         super(by, parentBy);
+    }
+
+    /**
+     * Performs a click on the given element with the following process:
+     *
+     * - Scrolling the element into current view
+     * - Performing the click action on the element
+     * - Waits for the page to load prior to proceeding
+     *
+     * @see WebElement#click()
+     */
+    public void click() {
+        scrollIntoView();
+        getRawWebElement().click();
+        getWebElementWait().waitUntilPageIsLoaded();
     }
 }

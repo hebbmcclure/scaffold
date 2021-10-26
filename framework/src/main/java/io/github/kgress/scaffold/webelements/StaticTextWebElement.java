@@ -1,34 +1,50 @@
 package io.github.kgress.scaffold.webelements;
 
+import io.github.kgress.scaffold.BaseWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 /**
  *
- * A strongly typed representation of a Static Text {@link WebElement}.
+ * Scaffold's strongly typed interpretation of a static text element.
  *
- * This wraps around simple read-only text fields, allowing you to subclass and differentiate any special controls you
- * might run into
+ * This fundamentally is the same thing as {@link DivWebElement} but offers a way to differentiate particular fields
+ * by type on your page object.
  */
-public class StaticTextWebElement extends AbstractClickable {
+public class StaticTextWebElement extends BaseClickableWebElement {
 
+    /**
+     * Creates a new {@link StaticTextWebElement}. It is highly recommended using {@link By#cssSelector(String)} over
+     * another method, such as {@link By#xpath(String)}, in almost all cases as it can be less flaky and less reliant
+     * on DOM hierarchy.
+     *
+     * @see BaseWebElement#BaseWebElement(String)
+     * @param cssSelector   the value of the {@link By#cssSelector(String)}
+     */
     public StaticTextWebElement(String cssSelector) {
         super(cssSelector);
     }
 
+    /**
+     * Use this constructor when you'd like to locate an element with a {@link By} method different from
+     * {@link By#cssSelector(String)}. We strongly recommend using {@link #StaticTextWebElement(String cssSelector)}
+     * in almost all cases.
+     *
+     * @see BaseWebElement#BaseWebElement(By)
+     * @param by    the {@link By} locator
+     */
     public StaticTextWebElement(By by) {
         super(by);
     }
 
-    public StaticTextWebElement(By by, WebElement parentElement) {
-        super(by, parentElement);
-    }
-
+    /**
+     * Use this constructor when you'd like to locate an element with a child and parent {@link By} together. Useful
+     * when you want a more verbose element definition in context of your websites' DOM.
+     *
+     * @see BaseWebElement#BaseWebElement(By, By)
+     * @param by        the {@link By} locator for the child element
+     * @param parentBy  the {@link By} locator for the parent element
+     */
     public StaticTextWebElement(By by, By parentBy) {
         super(by, parentBy);
-    }
-
-    public StaticTextWebElement(WebElement element) {
-        super(element);
     }
 }

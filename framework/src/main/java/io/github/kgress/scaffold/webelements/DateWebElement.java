@@ -1,22 +1,22 @@
 package io.github.kgress.scaffold.webelements;
 
+import io.github.kgress.scaffold.BaseWebElement;
 import io.github.kgress.scaffold.util.AutomationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
 /**
- * A strongly typed representation of a Date {@link WebElement}.
+ * Scaffold's strongly typed interpretation of a date element.
  *
  * This will frequently need to be subclassed in order to work with particular javascript calendar controls, etc., but
  * the intention is to provide a simple way to put dates in fields, which can frequently be tricky.
  */
 @Slf4j
-public class DateWebElement extends AbstractWebElement {
+public class DateWebElement extends BaseWebElement {
 
     // Global DateFormat to be used
     private static DateFormat dateFormat;
@@ -24,24 +24,40 @@ public class DateWebElement extends AbstractWebElement {
     // Local DateFormat which will override the global DateFormat
     private DateFormat localDateFormat;
 
+    /**
+     * Creates a new {@link DateWebElement}. It is highly recommended using {@link By#cssSelector(String)} over
+     * another method, such as {@link By#xpath(String)}, in almost all cases as it can be less flaky and less reliant
+     * on DOM hierarchy.
+     *
+     * @see BaseWebElement#BaseWebElement(String)
+     * @param cssSelector   the value of the {@link By#cssSelector(String)}
+     */
     public DateWebElement(String cssSelector) {
         super(cssSelector);
     }
 
+    /**
+     * Use this constructor when you'd like to locate an element with a {@link By} method different from
+     * {@link By#cssSelector(String)}. We strongly recommend using {@link #DateWebElement(String cssSelector)}
+     * in almost all cases.
+     *
+     * @see BaseWebElement#BaseWebElement(By)
+     * @param by    the {@link By} locator
+     */
     public DateWebElement(By by) {
         super(by);
     }
 
-    public DateWebElement(By by, WebElement parentElement) {
-        super(by, parentElement);
-    }
-
+    /**
+     * Use this constructor when you'd like to locate an element with a child and parent {@link By} together. Useful
+     * when you want a more verbose element definition in context of your websites' DOM.
+     *
+     * @see BaseWebElement#BaseWebElement(By, By)
+     * @param by        the {@link By} locator for the child element
+     * @param parentBy  the {@link By} locator for the parent element
+     */
     public DateWebElement(By by, By parentBy) {
         super(by, parentBy);
-    }
-
-    public DateWebElement(WebElement element) {
-        super(element);
     }
 
     /**

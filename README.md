@@ -185,7 +185,7 @@ Let's break down what we see in the example above.
 These are the elements on the page that we wish to represent. They can be whatever you feel is necessary to have. They could be headers, inputs, buttons, images, or anything else on the list of Strong Typed Elements above 
 and are all merely references to be used later when you're getting the elements. They are located with the `By` class.
 2. Getters         
-Just regular ol' getters. It was already mentioned above, but this is where the magic happens. For example, when you use the `clickLoginButton()` method in a test, the `AbstractWebElement` class will perform a find element
+Just regular ol' getters. It was already mentioned above, but this is where the magic happens. For example, when you use the `clickLoginButton()` method in a test, the `BaseWebElement` class will perform a find element
 from the `WebDriverWrapper` to find the element `loginButton`, and then perform the click action from `AbstractClickable`.
 3. Page actions          
 The page object is a good opportunity to include any page specific actions you'd like to abstract. This is yet another level of creating an additional layer that will allow us to maintain our testing a little easier as it scales.

@@ -11,7 +11,7 @@ import io.github.kgress.scaffold.exception.WebDriverManagerException;
 import io.github.kgress.scaffold.models.enums.desktop.BrowserType;
 import io.github.kgress.scaffold.models.enums.desktop.RunType;
 import io.github.kgress.scaffold.models.enums.mobileemulator.MobilePlatform;
-import io.github.kgress.scaffold.webdriver.WebDriverManager;
+import io.github.kgress.scaffold.WebDriverManager;
 import java.util.Optional;
 
 /**
