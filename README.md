@@ -17,10 +17,13 @@ To view the most current version, [visit the Central Repository](https://search.
 # Archetype
 For a quick start on creating a new Scaffold project, [check out the Scaffold-Archetype codebase](https://github.com/kgress/scaffold-archetype).
 
-# Links
-- [Contributing Guide](https://github.com/kgress/scaffold/blob/master/CONTRIBUTING.md)
-- [Code of Conduct](https://github.com/kgress/scaffold/blob/master/CODE_OF_CONDUCT.md)
-- [License](https://github.com/kgress/scaffold/blob/master/LICENSE.txt)
+# Docs
+- [Updating to Scaffold 3.x](docs/UPDATING_TO_V3.md)
+
+# Important Links
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [License](LICENSE.txt)
     
 # Required Tools for Dev
 * Java 11

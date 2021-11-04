@@ -18,11 +18,11 @@ public class WebElementWait {
     }
 
     /**
-     * Waits for an element to be displayed using {@link AutomationWait#waitUntilDisplayed(BaseWebElement)}
+     * Waits for an element to be displayed using {@link AutomationWait#waitUntilDisplayed(BaseWebElement, Long)}
      * @return as {@link WebElement}
      */
     public WebElement waitUntilDisplayed() {
-        return getWebDriverWrapper().getAutomationWait().waitUntilDisplayed(getElement());
+        return getWebDriverWrapper().getAutomationWait().waitUntilDisplayed(getElement(), null);
     }
 
     /**
@@ -30,6 +30,6 @@ public class WebElementWait {
      * @return as {@link Boolean}
      */
     public Boolean waitUntilPageIsLoaded() {
-        return getWebDriverWrapper().getAutomationWait().waitUntilPageIsLoaded();
+        return getWebDriverWrapper().getAutomationWait().waitUntilPageIsLoaded(null);
     }
 }

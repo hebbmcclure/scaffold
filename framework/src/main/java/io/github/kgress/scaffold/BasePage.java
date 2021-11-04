@@ -64,7 +64,7 @@ public class BasePage {
         }
 
         // Wait until the page is loaded then look for the elements
-        var isPageLoaded = getAutomationWait().waitUntilPageIsLoaded();
+        var isPageLoaded = getAutomationWait().waitUntilPageIsLoaded(null);
         if (isPageLoaded) {
             listOfElements.forEach(elementOnPage -> {
                 try {

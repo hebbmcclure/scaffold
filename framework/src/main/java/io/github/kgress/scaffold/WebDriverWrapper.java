@@ -247,22 +247,7 @@ public class WebDriverWrapper {
     public void synchronizeWindows() {
         // This custom timeout will only last for the duration of the window handling
         getAutomationWait().setTimeoutInSeconds(WINDOW_TIME_OUT_IN_SECONDS);
-        getAutomationWait().waitForCustomCondition(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver input) {
-                var innerWindows = getBaseWebDriver().getWindowHandles();
-                sleep(200);
-                // Wait until we know that we have retrieved windows and their size is different than our registered windows
-                // which equates to a window change of some sort
-                return (innerWindows != null && innerWindows.size() != getRegisteredWindows().size());
-            }
-
-            @Override
-            public String toString() {
-                // Failure message if no window changes are detected
-                return String.format("window change to happen. %d registered windows present", getRegisteredWindows().size());
-            }
-        });
+        getAutomationWait().waitForCustomCondition(createWindowExpectedCondition(), null);
         // Once we know we've found a window change, lets settle down for a few seconds and
         // freshly retrieve our window handles before attempting any logic
         sleep(200);
@@ -344,5 +329,29 @@ public class WebDriverWrapper {
         if (synchronizeWindows) {
             this.synchronizeWindows();
         }
+    }
+
+    /**
+     * A custom expected condition for {@link #synchronizeWindows()}
+     *
+     * @return as {@link ExpectedCondition}
+     */
+    private ExpectedCondition<Boolean> createWindowExpectedCondition() {
+        return new ExpectedCondition<>() {
+            @Override
+            public Boolean apply(WebDriver input) {
+                var innerWindows = getBaseWebDriver().getWindowHandles();
+                sleep(200);
+                // Wait until we know that we have retrieved windows and their size is different than our registered windows
+                // which equates to a window change of some sort
+                return (innerWindows != null && innerWindows.size() != getRegisteredWindows().size());
+            }
+
+            @Override
+            public String toString() {
+                // Failure message if no window changes are detected
+                return String.format("window change to happen. %d registered windows present", getRegisteredWindows().size());
+            }
+        };
     }
 }
