@@ -402,13 +402,25 @@ public class BaseWebElement {
     public <T extends BaseWebElement> T findElement(Class<T> elementClass, By by) {
         By combinedBy = null;
         var parentBy = getBy();
-
         // TODO https://github.com/kgress/scaffold/issues/108
         if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
             combinedBy = getCombinedByLocator(parentBy, by);
         }
-
-        return getScaffoldElement(elementClass, by, combinedBy, parentBy);
+        T returnElement;
+        try {
+            if (combinedBy != null ) {
+                Constructor<T> constructor = elementClass.getConstructor(By.class);
+                returnElement = constructor.newInstance( combinedBy );
+            } else {
+                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+                // Locate the child element to pass into the constructor
+                WebElement element = getRawWebElement().findElement(by);
+                returnElement = constructor.newInstance( element );
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("Could not instantiate Element properly: " + e);
+        }
+        return returnElement;
     }
 
     /**
@@ -442,25 +454,25 @@ public class BaseWebElement {
      * @return              the element as the specified Type Reference {@link BaseWebElement}
      */
     public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
-        By combinedBy = null;
         By parentBy = getBy();
         List<WebElement> elements;
-        List<T> newElements = new ArrayList<>();
-
         // TODO https://github.com/kgress/scaffold/issues/108
         if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
-            combinedBy = getCombinedByLocator(parentBy, by);
+            By combinedBy = getCombinedByLocator(parentBy, by);
             elements = getWebDriverWrapper().findElements(combinedBy);
         } else {
             elements = getRawWebElement().findElements(by);
         }
-
-        By finalCombinedBy = combinedBy;
-        elements.forEach(element -> {
-            T newElement;
-            newElement = getScaffoldElement(elementClass, by, finalCombinedBy, parentBy);
-            newElements.add(newElement);
-        });
+        List<T> newElements = new ArrayList<>();
+        for (WebElement element: elements) {
+            try {
+                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+                T newElement = constructor.newInstance(element);
+                newElements.add(newElement);
+            } catch (Exception e) {
+                throw new RuntimeException("Could not instantiate Element properly: " + e);
+            }
+        }
         return newElements;
     }
 
