@@ -22,7 +22,7 @@ public class WebElementWait {
      * @return as {@link WebElement}
      */
     public WebElement waitUntilDisplayed() {
-        return getWebDriverWrapper().getAutomationWait().waitUntilDisplayed(getElement(), null);
+        return getWebDriverWrapper().getAutomationWait().waitUntilDisplayed(getElement());
     }
 
     /**
@@ -30,6 +30,6 @@ public class WebElementWait {
      * @return as {@link Boolean}
      */
     public Boolean waitUntilPageIsLoaded() {
-        return getWebDriverWrapper().getAutomationWait().waitUntilPageIsLoaded(null);
+        return getWebDriverWrapper().getAutomationWait().waitUntilPageIsLoaded();
     }
 }

@@ -94,6 +94,27 @@ public class AutomationWait {
     }
 
     /**
+     * Waits for a custom condition using {@link ExpectedConditions} from Selenium. Can also be used by passing
+     * in a lambda to access the element directly. Does not set a temp wait time.
+     *
+     * Examples:
+     * <pre>
+     *     waitForCustomCondition(ExpectedConditions.urlContains(someString));
+     * </pre>
+     *
+     * <pre>
+     *     waitForCustomCondition(input -> element.isDisplayed());
+     * </pre>
+     *
+     * @param expectedCondition     the expected condition to wait for
+     * @param <T>                   the type reference
+     * @return                      the custom wait condition as the Type Reference T
+     */
+    public <T> T waitForCustomCondition(ExpectedCondition<T> expectedCondition) {
+        return waitForCustomCondition(expectedCondition, null);
+    }
+
+    /**
      * Waits for an element's text box to contain a specific string.
      *
      * @param element               the {@link BaseWebElement} we are checking
@@ -106,6 +127,16 @@ public class AutomationWait {
     }
 
     /**
+     * Waits for an element's text box to contain a specific string. Does not set a temp wait time.
+     *
+     * @param element               the {@link BaseWebElement} we are checking
+     * @param text                  the text we're waiting the element to contain
+     */
+    public Boolean waitForTextToContain(BaseWebElement element, String text) {
+        return waitForTextToContain(element, text, null);
+    }
+
+    /**
      * Waits for an element to become enabled
      *
      * @param element               the {@link BaseWebElement} we are waiting on
@@ -114,6 +145,15 @@ public class AutomationWait {
      */
     public Boolean waitUntilElementIsEnabled(BaseWebElement element, Long setTempTimeout) {
         return waitForCustomCondition(input -> element.isEnabled(), setTempTimeout);
+    }
+
+    /**
+     * Waits for an element to become enabled. Does not set a temp wait time.
+     *
+     * @param element               the {@link BaseWebElement} we are waiting on
+     */
+    public Boolean waitUntilElementIsEnabled(BaseWebElement element) {
+        return waitUntilElementIsEnabled(element, null);
     }
 
     /**
@@ -133,6 +173,17 @@ public class AutomationWait {
 
     /**
      * An extension to the pre canned {@link ExpectedConditions#attributeContains(WebElement, String, String)} method.
+     * Waits for an element to contain a specific class string. Does not set a temp wait time.
+     *
+     * @param element               the {@link BaseWebElement} we are checking
+     * @param className             the string we're expecting the class name to be
+     */
+    public Boolean waitForElementToHaveClass(BaseWebElement element, String className) {
+        return waitForElementToHaveClass(element, className, null);
+    }
+
+    /**
+     * An extension to the pre canned {@link ExpectedConditions#attributeContains(WebElement, String, String)} method.
      * Waits for an element to not contain a specific class string.
      *
      * @param element               the {@link BaseWebElement} we are checking
@@ -144,6 +195,17 @@ public class AutomationWait {
         return waitForCustomCondition(ExpectedConditions.not(
                         ExpectedConditions.attributeContains(element.getRawWebElement(), CLASS_ATTRIBUTE, className)
                 ), setTempTimeout);
+    }
+
+    /**
+     * An extension to the pre canned {@link ExpectedConditions#attributeContains(WebElement, String, String)} method.
+     * Waits for an element to not contain a specific class string. Does not set a temp wait time.
+     *
+     * @param element               the {@link BaseWebElement} we are checking
+     * @param className             the string we're expecting the class name to not be
+     */
+    public Boolean waitForElementToNotHaveClass(BaseWebElement element, String className) {
+        return waitForElementToNotHaveClass(element, className, null);
     }
 
     /**
@@ -168,6 +230,20 @@ public class AutomationWait {
     }
 
     /**
+     * A custom wait condition to wait until the page's DOM has switched to the complete status. Useful for page navigation
+     * to wait on returning a new page object until the DOM is loaded.
+     *
+     * This is already called in {@link BasePage} isOnPage to allow users verification of the web page they've navigated to.
+     * It is unnecessary to call this again after a page has loaded. However, this might come in handy when interactions
+     * on your web page change the state of the dom. Does not set a temp wait time.
+     *
+     * @return                      as {@link Boolean}
+     */
+    public Boolean waitUntilPageIsLoaded() {
+        return waitUntilPageIsLoaded(null);
+    }
+
+    /**
      * An extension to the pre canned {@link ExpectedConditions#visibilityOfElementLocated(By)} method. Waits for an
      * element to be displayed prior to interacting with it.
      *
@@ -179,6 +255,17 @@ public class AutomationWait {
     public WebElement waitUntilDisplayed(BaseWebElement element, Long setTempTimeout) {
         return getWebDriverWrapper().getAutomationWait().waitForCustomCondition(
                 ExpectedConditions.visibilityOfElementLocated(element.getBy()), setTempTimeout);
+    }
+
+    /**
+     * An extension to the pre canned {@link ExpectedConditions#visibilityOfElementLocated(By)} method. Waits for an
+     * element to be displayed prior to interacting with it. Does not set a temp wait time.
+     *
+     * @param element               the {@link BaseWebElement} we are interacting with
+     * @return                      as a {@link WebElement}
+     */
+    public WebElement waitUntilDisplayed(BaseWebElement element) {
+        return waitUntilDisplayed(element, null);
     }
 
     /**

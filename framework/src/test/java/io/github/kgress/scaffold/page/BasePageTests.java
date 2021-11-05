@@ -43,7 +43,7 @@ public class BasePageTests extends BaseUnitTest {
 
     @Test
     public void verifyIsOnPage_elementDisplayed() {
-        when(mockAutomationWait.waitUntilPageIsLoaded(null)).thenReturn(true);
+        when(mockAutomationWait.waitUntilPageIsLoaded()).thenReturn(true);
         when(mockDivWebElement.isDisplayed()).thenReturn(true);
 
         var isOnPage = testBasePage.verifyIsOnPage_callProtectedMethod(mockDivWebElement);
@@ -52,7 +52,7 @@ public class BasePageTests extends BaseUnitTest {
 
     @Test
     public void verifyIsOnPage_elementsDisplayed() {
-        when(mockAutomationWait.waitUntilPageIsLoaded(null)).thenReturn(true);
+        when(mockAutomationWait.waitUntilPageIsLoaded()).thenReturn(true);
         when(mockDivWebElement.isDisplayed()).thenReturn(true);
         when(mockInputWebElement.isDisplayed()).thenReturn(true);
 
@@ -63,7 +63,7 @@ public class BasePageTests extends BaseUnitTest {
 
     @Test
     public void verifyIsOnPage_elementNotDisplayed() {
-        when(mockAutomationWait.waitUntilPageIsLoaded(null)).thenReturn(true);
+        when(mockAutomationWait.waitUntilPageIsLoaded()).thenReturn(true);
         when(mockDivWebElement.isDisplayed()).thenThrow(TimeoutException.class);
         var exception = assertThrows(TimeoutException.class, () ->
                 testBasePage.verifyIsOnPage_callProtectedMethod(mockDivWebElement));
@@ -72,7 +72,7 @@ public class BasePageTests extends BaseUnitTest {
 
     @Test
     public void verifyIsOnPage_elementsNotDisplayed() {
-        when(mockAutomationWait.waitUntilPageIsLoaded(null)).thenReturn(true);
+        when(mockAutomationWait.waitUntilPageIsLoaded()).thenReturn(true);
         when(mockDivWebElement.isDisplayed()).thenReturn(true);
         when(mockInputWebElement.isDisplayed()).thenThrow(TimeoutException.class);
         var exception = assertThrows(TimeoutException.class, () ->
@@ -82,7 +82,7 @@ public class BasePageTests extends BaseUnitTest {
 
     @Test
     public void verifyIsOnPage_pageNotLoaded() {
-        when(mockAutomationWait.waitUntilPageIsLoaded(null)).thenReturn(false);
+        when(mockAutomationWait.waitUntilPageIsLoaded()).thenReturn(false);
         var exception = assertThrows(TimeoutException.class, () ->
                 testBasePage.verifyIsOnPage_callProtectedMethod(mockDivWebElement));
         assertTrue(exception.getMessage().contains("The intended page failed to load"));

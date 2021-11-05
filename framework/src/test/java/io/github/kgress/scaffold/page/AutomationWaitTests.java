@@ -34,7 +34,7 @@ public class AutomationWaitTests extends BaseUnitTest {
     public void testWaitForTextToContain_success() {
         when(mockDivWebElement.getText()).thenReturn(SharedTestVariables.TEXT_1);
         var textIsThere = testAutomationWait
-                .waitForTextToContain(mockDivWebElement, SharedTestVariables.TEXT_1, null);
+                .waitForTextToContain(mockDivWebElement, SharedTestVariables.TEXT_1);
         assertTrue(textIsThere);
     }
 
@@ -42,20 +42,20 @@ public class AutomationWaitTests extends BaseUnitTest {
     public void testWaitForTextToContain_fail() {
         when(mockDivWebElement.getText()).thenReturn(SharedTestVariables.TEXT_2);
         assertThrows(TimeoutException.class, () ->
-                testAutomationWait.waitForTextToContain(mockDivWebElement, SharedTestVariables.TEXT_1, null));
+                testAutomationWait.waitForTextToContain(mockDivWebElement, SharedTestVariables.TEXT_1));
     }
 
     @Test
     public void testWaitUntilElementIsEnabled_success() {
         when(mockDivWebElement.isEnabled()).thenReturn(true);
-        var elementIsEnabled = testAutomationWait.waitUntilElementIsEnabled(mockDivWebElement, null);
+        var elementIsEnabled = testAutomationWait.waitUntilElementIsEnabled(mockDivWebElement);
         assertTrue(elementIsEnabled);
     }
 
     @Test
     public void testWaitUntilElementIsEnabled_fail() {
         when(mockDivWebElement.isEnabled()).thenReturn(false);
-        assertThrows(TimeoutException.class, () -> testAutomationWait.waitUntilElementIsEnabled(mockDivWebElement, null));
+        assertThrows(TimeoutException.class, () -> testAutomationWait.waitUntilElementIsEnabled(mockDivWebElement));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockDivWebElement.getRawWebElement().getAttribute("class"))
                 .thenReturn(SharedTestVariables.CLASS_NAME);
         var elementHasClass = testAutomationWait
-                .waitForElementToHaveClass(mockDivWebElement, SharedTestVariables.CLASS_NAME, null);
+                .waitForElementToHaveClass(mockDivWebElement, SharedTestVariables.CLASS_NAME);
         assertTrue(elementHasClass);
     }
 
@@ -73,7 +73,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockDivWebElement.getRawWebElement()).thenReturn(mockRawWebElement);
         when(mockDivWebElement.getRawWebElement().getAttribute("class")).thenReturn(TEST_CLASS_NAME2);
         assertThrows(TimeoutException.class, () ->
-                testAutomationWait.waitForElementToHaveClass(mockDivWebElement,SharedTestVariables.CLASS_NAME, null));
+                testAutomationWait.waitForElementToHaveClass(mockDivWebElement,SharedTestVariables.CLASS_NAME));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockDivWebElement.getRawWebElement().getAttribute("class"))
                 .thenReturn(SharedTestVariables.CLASS_NAME);
         var elementDoesNotHaveClass = testAutomationWait
-                .waitForElementToNotHaveClass(mockDivWebElement, TEST_CLASS_NAME2, null);
+                .waitForElementToNotHaveClass(mockDivWebElement, TEST_CLASS_NAME2);
         assertTrue(elementDoesNotHaveClass);
     }
 
@@ -92,7 +92,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockDivWebElement.getRawWebElement().getAttribute("class"))
                 .thenReturn(SharedTestVariables.CLASS_NAME);
         assertThrows(TimeoutException.class, () -> testAutomationWait
-                .waitForElementToNotHaveClass(mockDivWebElement, SharedTestVariables.CLASS_NAME, null));
+                .waitForElementToNotHaveClass(mockDivWebElement, SharedTestVariables.CLASS_NAME));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockWebDriverWrapper.getJavascriptExecutor()).thenReturn(mockJavascriptExecutor);
         when(mockWebDriverWrapper.getJavascriptExecutor().executeScript(DOM_READY_STATE_SCRIPT))
                 .thenReturn(DOM_EXPECTED_READY_STATE);
-        var pageIsLoaded = testAutomationWait.waitUntilPageIsLoaded(null);
+        var pageIsLoaded = testAutomationWait.waitUntilPageIsLoaded();
         assertTrue(pageIsLoaded);
     }
 
@@ -109,7 +109,7 @@ public class AutomationWaitTests extends BaseUnitTest {
         when(mockWebDriverWrapper.getJavascriptExecutor()).thenReturn(mockJavascriptExecutor);
         when(mockWebDriverWrapper.getJavascriptExecutor().executeScript(DOM_READY_STATE_SCRIPT))
                 .thenReturn("neener, it's not complete");
-        assertThrows(TimeoutException.class, () -> testAutomationWait.waitUntilPageIsLoaded(null));
+        assertThrows(TimeoutException.class, () -> testAutomationWait.waitUntilPageIsLoaded());
     }
 
     @Test
