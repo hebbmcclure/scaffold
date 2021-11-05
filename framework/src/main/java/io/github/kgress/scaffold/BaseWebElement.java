@@ -39,7 +39,7 @@ import static java.util.logging.Level.WARNING;
  *  it's ideal for use as class variables in a page object to increase the performance of page object instantiation.
  *
  *  Example scenario:
- *  <pre>
+ *  <pre>{@code
  *      &#64;Getter
  *      public class LoginPage extends BasePage {
  *          private InputWebElement usernameInput = new InputWebElement("#username");
@@ -50,6 +50,7 @@ import static java.util.logging.Level.WARNING;
  *              verifyIsOnPage(getUsernameInput(), getPasswordInput(), getSubmitButton());
  *          }
  *      }
+ *  }
  *  </pre>
  *
  *  If you want to use {@link #findElement(Class, String)} or {@link #findElements(Class, By)}, use them in methods
@@ -59,7 +60,7 @@ import static java.util.logging.Level.WARNING;
  *  {@link DesiredCapabilitiesConfigurationProperties#setWaitTimeoutInSeconds(Long)} defined in your spring profile.
  *
  *  Example scenario:
- *  <pre>
+ *  <pre>{@code
  *      &#64;Getter
  *      public class LoginPage extends BasePage {
  *          private InputWebElement usernameInput = new InputWebElement("#username");
@@ -76,6 +77,7 @@ import static java.util.logging.Level.WARNING;
  *              return getLegaleseContainer().findElements(LinkWebElement.class, legaleseLinks");
  *          }
  *      }
+ *  }
  *  </pre>
  */
 @Slf4j
@@ -127,7 +129,7 @@ public class BaseWebElement {
      * as a reference for use later. Once the element is set, we create a new {@link WebElementWait} for it.
      *
      * For example, perhaps you have a modal on your website:
-     * <pre>
+     * <pre>{@code
      *      &#64;Getter
      *      public class LoginPage extends BasePage {
      *          private InputWebElement usernameInput = new InputWebElement(
@@ -141,6 +143,7 @@ public class BaseWebElement {
      *              verifyIsOnPage(getUsernameInput(), getPasswordInput(), getSubmitButton());
      *          }
      *      }
+     * }
      * </pre>
      *
      * @param by        the {@link By} locator to be used by this element
@@ -323,6 +326,8 @@ public class BaseWebElement {
 
     /**
      * Scrolls an element into view.
+     *
+     * @return as {@link WebElement}
      */
     public WebElement scrollIntoView() {
         return (WebElement) getWebDriverWrapper()
@@ -369,7 +374,7 @@ public class BaseWebElement {
      * Scaffold element.
      *
      *  Example scenario:
-     *  <pre>
+     *  <pre>{@code
      *      &#64;Getter
      *      public class LoginPage extends BasePage {
      *          private InputWebElement usernameInput = new InputWebElement("#username");
@@ -386,6 +391,7 @@ public class BaseWebElement {
      *              return getLegaleseContainer().findElement(LinkWebElement.class, legaleseLink");
      *          }
      *      }
+     *  }
      *  </pre>
      *
      * @param elementClass  the strong typed class of the element being found
@@ -410,7 +416,7 @@ public class BaseWebElement {
      * a list of strongly typed Scaffold elements.
      *
      *  Example scenario:
-     *  <pre>
+     *  <pre>{@code
      *      &#64;Getter
      *      public class LoginPage extends BasePage {
      *          private InputWebElement usernameInput = new InputWebElement("#username");
@@ -427,6 +433,7 @@ public class BaseWebElement {
      *              return getLegaleseContainer().findElements(LinkWebElement.class, legaleseLinks");
      *          }
      *      }
+     *  }
      *  </pre>
      *
      * @param elementClass  the strong typed class of the element being found

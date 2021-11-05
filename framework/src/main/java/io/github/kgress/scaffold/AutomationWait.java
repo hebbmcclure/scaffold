@@ -60,12 +60,14 @@ public class AutomationWait {
      * in a lambda to access the element directly.
      *
      * Examples:
-     * <pre>
-     *     waitForCustomCondition(ExpectedConditions.urlContains(someString));
+     * <pre>{@code
+     *      waitForCustomCondition(ExpectedConditions.urlContains(someString));
+     * }
      * </pre>
      *
-     * <pre>
-     *     waitForCustomCondition(input -> element.isDisplayed());
+     * <pre>{@code
+     *      waitForCustomCondition(input -> element.isDisplayed());
+     * }
      * </pre>
      *
      * @param expectedCondition     the expected condition to wait for
@@ -98,12 +100,14 @@ public class AutomationWait {
      * in a lambda to access the element directly. Does not set a temp wait time.
      *
      * Examples:
-     * <pre>
-     *     waitForCustomCondition(ExpectedConditions.urlContains(someString));
+     * <pre>{@code
+     *      waitForCustomCondition(ExpectedConditions.urlContains(someString));
+     * }
      * </pre>
      *
-     * <pre>
-     *     waitForCustomCondition(input -> element.isDisplayed());
+     * <pre>{@code
+     *      waitForCustomCondition(input -> element.isDisplayed());
+     * }
      * </pre>
      *
      * @param expectedCondition     the expected condition to wait for
@@ -121,6 +125,7 @@ public class AutomationWait {
      * @param text                  the text we're waiting the element to contain
      * @param setTempTimeout        an option to temporarily set the timeout to a value other than what's set
      *                              in the spring profile
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForTextToContain(BaseWebElement element, String text, Long setTempTimeout) {
         return waitForCustomCondition(input -> element.getText().contains(text), setTempTimeout);
@@ -131,6 +136,7 @@ public class AutomationWait {
      *
      * @param element               the {@link BaseWebElement} we are checking
      * @param text                  the text we're waiting the element to contain
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForTextToContain(BaseWebElement element, String text) {
         return waitForTextToContain(element, text, null);
@@ -142,6 +148,7 @@ public class AutomationWait {
      * @param element               the {@link BaseWebElement} we are waiting on
      * @param setTempTimeout        an option to temporarily set the timeout to a value other than what's set
      *                              in the spring profile
+     * @return                      as {@link Boolean}
      */
     public Boolean waitUntilElementIsEnabled(BaseWebElement element, Long setTempTimeout) {
         return waitForCustomCondition(input -> element.isEnabled(), setTempTimeout);
@@ -151,6 +158,7 @@ public class AutomationWait {
      * Waits for an element to become enabled. Does not set a temp wait time.
      *
      * @param element               the {@link BaseWebElement} we are waiting on
+     * @return                      as {@link Boolean}
      */
     public Boolean waitUntilElementIsEnabled(BaseWebElement element) {
         return waitUntilElementIsEnabled(element, null);
@@ -164,6 +172,7 @@ public class AutomationWait {
      * @param className             the string we're expecting the class name to be
      * @param setTempTimeout        an option to temporarily set the timeout to a value other than what's set
      *                              in the spring profile
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForElementToHaveClass(BaseWebElement element, String className, Long setTempTimeout) {
         return waitForCustomCondition(ExpectedConditions.attributeContains(
@@ -177,6 +186,7 @@ public class AutomationWait {
      *
      * @param element               the {@link BaseWebElement} we are checking
      * @param className             the string we're expecting the class name to be
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForElementToHaveClass(BaseWebElement element, String className) {
         return waitForElementToHaveClass(element, className, null);
@@ -190,6 +200,7 @@ public class AutomationWait {
      * @param className             the string we're expecting the class name to not be
      * @param setTempTimeout        an option to temporarily set the timeout to a value other than what's set
      *                              in the spring profile
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForElementToNotHaveClass(BaseWebElement element, String className, Long setTempTimeout) {
         return waitForCustomCondition(ExpectedConditions.not(
@@ -203,6 +214,7 @@ public class AutomationWait {
      *
      * @param element               the {@link BaseWebElement} we are checking
      * @param className             the string we're expecting the class name to not be
+     * @return                      as {@link Boolean}
      */
     public Boolean waitForElementToNotHaveClass(BaseWebElement element, String className) {
         return waitForElementToNotHaveClass(element, className, null);

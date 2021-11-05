@@ -31,15 +31,16 @@ public class BasePage {
      * It's best to use this method in the constructor of the page object as it will be invoked at the time the page is
      * instantiated. For example:
      *
-     * <pre>
-     * &#64;Getter
-     * public class LoginPage() {
-     *     private InputWebElement emailInput = new InputWebElement("#email");
-     *     private InputWebElement passwordInput = new InputWebElement("#password");
+     * <pre>{@code
+     *  &#64;Getter
+     *  public class LoginPage() {
+     *         private InputWebElement emailInput = new InputWebElement("#email");
+     *      private InputWebElement passwordInput = new InputWebElement("#password");
      *
-     *     public LoginPage() {
-     *         verifyIsOnPage(getEmailInput, getPasswordInput);
-     *     }
+     *      public LoginPage() {
+     *             verifyIsOnPage(getEmailInput, getPasswordInput);
+     *      }
+     *  }
      * }
      * </pre>
      *
