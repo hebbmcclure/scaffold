@@ -402,25 +402,13 @@ public class BaseWebElement {
     public <T extends BaseWebElement> T findElement(Class<T> elementClass, By by) {
         By combinedBy = null;
         var parentBy = getBy();
+
         // TODO https://github.com/kgress/scaffold/issues/108
         if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
             combinedBy = getCombinedByLocator(parentBy, by);
         }
-        T returnElement;
-        try {
-            if (combinedBy != null ) {
-                Constructor<T> constructor = elementClass.getConstructor(By.class);
-                returnElement = constructor.newInstance( combinedBy );
-            } else {
-                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-                // Locate the child element to pass into the constructor
-                WebElement element = getRawWebElement().findElement(by);
-                returnElement = constructor.newInstance( element );
-            }
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Could not instantiate Element properly: " + e);
-        }
-        return returnElement;
+
+        return getScaffoldElement(elementClass, by, combinedBy, parentBy);
     }
 
     /**
@@ -454,9 +442,29 @@ public class BaseWebElement {
      * @return              the element as the specified Type Reference {@link BaseWebElement}
      */
     public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
+//        By combinedBy = null;
+//        By parentBy = getBy();
+//        List<WebElement> elements;
+//        List<T> newElements = new ArrayList<>();
+//
+//        // TODO https://github.com/kgress/scaffold/issues/108
+//        if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
+//            combinedBy = getCombinedByLocator(parentBy, by);
+//            elements = getWebDriverWrapper().findElements(combinedBy);
+//        } else {
+//            elements = getRawWebElement().findElements(by);
+//        }
+//
+//        By finalCombinedBy = combinedBy;
+//        elements.forEach(element -> {
+//            T newElement;
+//            newElement = getScaffoldElement(elementClass, by, finalCombinedBy, parentBy);
+//            newElements.add(newElement);
+//        });
+//        return newElements;
         By parentBy = getBy();
         List<WebElement> elements;
-        // TODO https://github.com/kgress/scaffold/issues/108
+        // Basically here if both locators are css locators, we're going to go ahead and combine them
         if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
             By combinedBy = getCombinedByLocator(parentBy, by);
             elements = getWebDriverWrapper().findElements(combinedBy);
@@ -466,8 +474,8 @@ public class BaseWebElement {
         List<T> newElements = new ArrayList<>();
         for (WebElement element: elements) {
             try {
-                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-                T newElement = constructor.newInstance(element);
+                Constructor<T> constructor = elementClass.getConstructor(By.class);
+                T newElement = constructor.newInstance(by);
                 newElements.add(newElement);
             } catch (Exception e) {
                 throw new RuntimeException("Could not instantiate Element properly: " + e);
