@@ -350,6 +350,7 @@ public class BaseWebElementTests extends BaseUnitTest {
         assertThrows(TimeoutException.class, elementByClass::scrollIntoView);
     }
 
+    // These tests below all use MockBaseWebElement and NOT the TestBaseWebElement from base unit test
     @Test
     public void testFindBaseWebElement_css_combinedBy() {
         foundElement = parentBaseWebElementByCss
@@ -404,13 +405,12 @@ public class BaseWebElementTests extends BaseUnitTest {
         foundElements.forEach(element -> assertEquals(expectedCombinedBy, element.getBy()));
     }
 
-//    @Test
-//    public void testFindBaseWebElements_class_combinedBy() {
-//        setBaseWhen(parentBaseWebElementByClass);
-//        List<MockBaseWebElement> foundElements;
-//        foundElements = parentBaseWebElementByClass
-//                .findElements(MockBaseWebElement.class, SharedTestVariables.CSS_SELECTOR1);
-//        assertEquals(2, foundElements.size());
-//        foundElements.forEach(element -> assertEquals(expectedBy, element.getBy()));
-//    }
+    @Test
+    public void testFindBaseWebElements_class_combinedBy() {
+        List<MockBaseWebElement> foundElements;
+        foundElements = parentBaseWebElementByClass
+                .findElements(MockBaseWebElement.class, SharedTestVariables.CSS_SELECTOR1);
+        assertEquals(2, foundElements.size());
+        foundElements.forEach(element -> assertEquals(expectedBy, element.getBy()));
+    }
 }

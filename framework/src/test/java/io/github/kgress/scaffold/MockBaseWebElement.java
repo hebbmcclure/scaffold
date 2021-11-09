@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.kgress.scaffold.SharedTestVariables.EXPECTED_COMBINED_SELECTOR;
 import static org.mockito.Mockito.when;
 
 /**
@@ -22,6 +21,7 @@ public class MockBaseWebElement extends BaseWebElement {
 
     public WebDriverWrapper mockWebDriverWrapper = Mockito.mock(WebDriverWrapper.class);
     public WebElementWait mockWebElementWait = Mockito.mock(WebElementWait.class);
+    public WebElement mockParentWebElement = Mockito.mock(WebElement.class);
     public WebElement mockRawWebElement1 = Mockito.mock(WebElement.class);
     public WebElement mockRawWebElement2 = Mockito.mock(WebElement.class);
 
@@ -58,7 +58,15 @@ public class MockBaseWebElement extends BaseWebElement {
         List<WebElement> listOfRawWebElements = new ArrayList<>();;
         listOfRawWebElements.add(mockRawWebElement1);
         listOfRawWebElements.add(mockRawWebElement2);
-        when(mockWebDriverWrapper.findElements(By.cssSelector(EXPECTED_COMBINED_SELECTOR)))
+
+        // When condition for all css selectors with combined by
+        when(mockWebDriverWrapper.findElements(By.cssSelector(SharedTestVariables.CSS_SELECTOR1)))
+                .thenReturn(listOfRawWebElements);
+
+        // When condition for not all css selectors using a parent/child
+        when(mockWebDriverWrapper.findElement(By.className(SharedTestVariables.CLASS_NAME)))
+                .thenReturn(mockParentWebElement);
+        when(mockParentWebElement.findElements(By.cssSelector(SharedTestVariables.CSS_SELECTOR1)))
                 .thenReturn(listOfRawWebElements);
 
         return mockWebDriverWrapper;
