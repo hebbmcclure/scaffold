@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -60,8 +61,7 @@ public class MockBaseWebElement extends BaseWebElement {
         listOfRawWebElements.add(mockRawWebElement2);
 
         // When condition for all css selectors with combined by
-        when(mockWebDriverWrapper.findElements(By.cssSelector(SharedTestVariables.CSS_SELECTOR1)))
-                .thenReturn(listOfRawWebElements);
+        when(mockWebDriverWrapper.findElements(any())).thenReturn(listOfRawWebElements);
 
         // When condition for not all css selectors using a parent/child
         when(mockWebDriverWrapper.findElement(By.className(SharedTestVariables.CLASS_NAME)))
