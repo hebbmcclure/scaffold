@@ -9,8 +9,28 @@ import java.util.List;
 
 public abstract class BaseTable extends BaseWebElement {
 
+    public BaseTable(String cssSelector) {
+        super(cssSelector);
+    }
+
     public BaseTable(By by) {
         super(by);
+    }
+
+    public BaseTable(By by, By parentBy) {
+        super(by, parentBy);
+    }
+
+    public BaseTable(WebElement webElement) {
+        super(webElement);
+    }
+
+    public BaseTable(By by, WebElement webElement) {
+        super(by, webElement);
+    }
+
+    public BaseTable(By by, By parentBy, WebElement webElement) {
+        super(by, parentBy, webElement);
     }
 
     /**
