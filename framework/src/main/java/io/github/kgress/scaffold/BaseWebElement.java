@@ -378,6 +378,7 @@ public abstract class BaseWebElement {
                 log.debug("Using potentially stale webelement: " + this.getClass().getSimpleName());
                 return baseElement;
             }
+            getWait().waitUntilDisplayed();
             if (hasParentElement()) {
                 log.debug("Locating element relative to parent element [%s]", by);
                 return getParentElement().findElement(by);
