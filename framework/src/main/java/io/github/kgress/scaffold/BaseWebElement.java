@@ -84,7 +84,7 @@ import static java.util.logging.Level.WARNING;
 public class BaseWebElement {
 
     @Getter @Setter private By parentBy;
-    @Getter @Setter private By by;
+    @Getter @Setter protected By by;
 
     /**
      * This is set during {@link #BaseWebElement(WebElement)}, {@link #BaseWebElement(By, WebElement)}, and
@@ -95,7 +95,7 @@ public class BaseWebElement {
      *
      * Usage of this variable and {@link #getRawWebElement()} are fundamentally the same.
      */
-    private WebElement rawWebElement;
+    protected WebElement rawWebElement;
 
     /**
      * Gets the {@link WebElementWait} for the current {@link BaseWebElement} being interacted with.
@@ -113,7 +113,7 @@ public class BaseWebElement {
      *
      * @param cssSelector   the string value of the {@link By#cssSelector(String)}
      */
-    protected BaseWebElement(String cssSelector) {
+    public BaseWebElement(String cssSelector) {
         this.setBy(By.cssSelector(cssSelector));
         setWebElementWait();
     }
@@ -129,7 +129,7 @@ public class BaseWebElement {
      *
      * @param by    the {@link By} locator to be used by this element
      */
-    protected BaseWebElement(By by) {
+    public BaseWebElement(By by) {
         this.setBy(by);
         setWebElementWait();
     }
@@ -160,7 +160,7 @@ public class BaseWebElement {
      * @param by        the {@link By} locator to be used by this element
      * @param parentBy  the {@link By} locator for the parent element
      */
-    protected BaseWebElement(By by, By parentBy) {
+    public BaseWebElement(By by, By parentBy) {
         this.setBy(by);
         this.setParentBy(parentBy);
         setWebElementWait();
@@ -177,7 +177,7 @@ public class BaseWebElement {
      *
      * @param webElement    the {@link WebElement} being wrapped
      */
-    protected BaseWebElement(WebElement webElement) {
+    public BaseWebElement(WebElement webElement) {
         this.rawWebElement = webElement;
         setWebElementWait();
     }
@@ -194,7 +194,7 @@ public class BaseWebElement {
      * @param by            the {@link By} locator to be used by this element
      * @param webElement    the {@link WebElement} being wrapped
      */
-    protected BaseWebElement(By by, WebElement webElement) {
+    public BaseWebElement(By by, WebElement webElement) {
         this.setBy(by);
         this.rawWebElement = webElement;
         setWebElementWait();
@@ -213,7 +213,7 @@ public class BaseWebElement {
      * @param parentBy      the {@link By} locator to be used by the parent element
      * @param webElement    the {@link WebElement} being wrapped
      */
-    protected BaseWebElement(By by, By parentBy, WebElement webElement) {
+    public BaseWebElement(By by, By parentBy, WebElement webElement) {
         this.setBy(by);
         this.setParentBy(parentBy);
         this.rawWebElement = webElement;
