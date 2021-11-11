@@ -349,11 +349,11 @@ public class BaseWebElement {
         var by = getBy();
 
         try {
-            getWebElementWait().waitUntilDisplayed();
             if (rawWebElement != null) {
                 log.debug(String.format("Using potentially stale WebElement: %s", this.getClass().getSimpleName()));
                 return rawWebElement;
             }
+            getWebElementWait().waitUntilDisplayed();
             // TODO https://github.com/kgress/scaffold/issues/108
             if (parentBy != null) {
                 log.debug(String.format("Locating element [%s] relative to parent element [%s]", by, parentBy));
