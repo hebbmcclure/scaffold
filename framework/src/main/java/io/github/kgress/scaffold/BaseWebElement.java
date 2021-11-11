@@ -172,14 +172,14 @@ public abstract class BaseWebElement {
 
     
     public boolean isEnabled() {
-        var element = this.getRawWebElement();
+        var element = this.getRawWebElement(false);
         return element != null && element.isEnabled();
     }
 
     
     public boolean isDisplayed() {
         try {
-            var element = this.getRawWebElement();
+            var element = this.getRawWebElement(false);
             return element != null && element.isDisplayed();
         } catch (WebDriverException e) {
             // Not logging the exception here as the output isn't really useful to use
@@ -317,8 +317,17 @@ public abstract class BaseWebElement {
 
     
     public boolean exists() {
-        var element = getRawWebElement();
+        var element = getRawWebElement(false);
         return element != null;
+    }
+
+    
+    public WebElement getRawWebElement() {
+        // Wait for the element to be displayed if configured
+//        if (TestContext.baseContext().getSetting(Boolean.class, TestContextSetting.WAIT_FOR_DISPLAY_ENABLED)) {
+//            getWait().waitUntilDisplayed();
+//        }
+        return getRawWebElement(true);
     }
 
     
@@ -360,15 +369,15 @@ public abstract class BaseWebElement {
     /**
      * If the element was defined with a baseElement, return it--though there's a risk it could be "stale"
      *
+     * @param throwExceptionIfNotFound a boolean value for throwing an exception
      * @return the {@link WebElement}
      */
-    protected WebElement getRawWebElement() {
+    protected WebElement getRawWebElement(boolean throwExceptionIfNotFound) {
         try {
             if (baseElement != null) {
                 log.debug("Using potentially stale webelement: " + this.getClass().getSimpleName());
                 return baseElement;
             }
-            getWait().waitUntilDisplayed();
             if (hasParentElement()) {
                 log.debug("Locating element relative to parent element [%s]", by);
                 return getParentElement().findElement(by);
@@ -394,8 +403,12 @@ public abstract class BaseWebElement {
             } catch (NullPointerException n) {
                 log.debug("No Errors reported in Console Logs during failure.");
             }
-            throw e;
+
+            if (throwExceptionIfNotFound) {
+                throw e;
+            }
         }
+        return null;
     }
 
     /**
@@ -468,7 +481,7 @@ public abstract class BaseWebElement {
     /**
      * Initializes the webElementWait field by passing in the WebDriver and a copy of this element
      */
-    public void initWait() {
+    private void initWait() {
         this.webElementWait = new WebElementWait(getWebDriverWrapper(), this);
 
     }
