@@ -95,7 +95,8 @@ public class BaseWebElement {
      *
      * Usage of this variable and {@link #getRawWebElement()} are fundamentally the same.
      */
-    protected WebElement rawWebElement;
+//    protected WebElement rawWebElement;
+    protected WebElement baseElement;
 
     /**
      * Gets the {@link WebElementWait} for the current {@link BaseWebElement} being interacted with.
@@ -172,13 +173,13 @@ public class BaseWebElement {
      *
      * When instantiating new elements with this constructor, There is a risk of a
      * {@link StaleElementReferenceException} occurring when interacting with elements since
-     * {@link #getRawWebElement()} will return the {@link #rawWebElement} on being present. This means we are not re
+     * {@link #getRawWebElement()} will return the {@link #baseElement} on being present. This means we are not re
      * finding the element prior to interacting with it. Use this constructor at your own risk.
      *
      * @param webElement    the {@link WebElement} being wrapped
      */
     public BaseWebElement(WebElement webElement) {
-        this.rawWebElement = webElement;
+        this.baseElement = webElement;
         setWebElementWait();
     }
 
@@ -188,7 +189,7 @@ public class BaseWebElement {
      *
      * When instantiating new elements with this constructor, There is a risk of a
      * {@link StaleElementReferenceException} occurring when interacting with elements since
-     * {@link #getRawWebElement()} will return the {@link #rawWebElement} on being present. This means we are not re
+     * {@link #getRawWebElement()} will return the {@link #baseElement} on being present. This means we are not re
      * finding the element prior to interacting with it. Use this constructor at your own risk.
      *
      * @param by            the {@link By} locator to be used by this element
@@ -196,7 +197,7 @@ public class BaseWebElement {
      */
     public BaseWebElement(By by, WebElement webElement) {
         this.setBy(by);
-        this.rawWebElement = webElement;
+        this.baseElement = webElement;
         setWebElementWait();
     }
 
@@ -206,7 +207,7 @@ public class BaseWebElement {
      *
      * When instantiating new elements with this constructor, There is a risk of a
      * {@link StaleElementReferenceException} occurring when interacting with elements since
-     * {@link #getRawWebElement()} will return the {@link #rawWebElement} on being present. This means we are not re
+     * {@link #getRawWebElement()} will return the {@link #baseElement} on being present. This means we are not re
      * finding the element prior to interacting with it. Use this constructor at your own risk.
      *
      * @param by            the {@link By} locator to be used by this element
@@ -216,7 +217,7 @@ public class BaseWebElement {
     public BaseWebElement(By by, By parentBy, WebElement webElement) {
         this.setBy(by);
         this.setParentBy(parentBy);
-        this.rawWebElement = webElement;
+        this.baseElement = webElement;
         setWebElementWait();
     }
 
@@ -349,9 +350,9 @@ public class BaseWebElement {
         var by = getBy();
 
         try {
-            if (rawWebElement != null) {
+            if (baseElement != null) {
                 log.debug(String.format("Using potentially stale WebElement: %s", this.getClass().getSimpleName()));
-                return rawWebElement;
+                return baseElement;
             }
             getWebElementWait().waitUntilDisplayed();
             // TODO https://github.com/kgress/scaffold/issues/108
@@ -430,7 +431,7 @@ public class BaseWebElement {
      * using {@link By#cssSelector(String)} to find your elements. It is advised to not invoke this method on the
      * declaration of a class variable. When doing so, it will invoke {@link WebDriver#findElements(By)} which will
      * reduce your Page Object instantiation. We also run the risk of encountering a
-     * {@link StaleElementReferenceException} since the {@link #rawWebElement} is being stored in the constructor.
+     * {@link StaleElementReferenceException} since the {@link #baseElement} is being stored in the constructor.
      *
      *  Example scenario:
      *  <pre>{@code
@@ -537,7 +538,7 @@ public class BaseWebElement {
      * a list of strongly typed Scaffold elements. It is advised to not invoke this method on the declaration
      * of a class variable. When doing so, it will invoke {@link WebDriver#findElements(By)} which will reduce your
      * Page Object instantiation. We also run the risk of encountering a {@link StaleElementReferenceException} since
-     * the {@link #rawWebElement} is being stored in the constructor.
+     * the {@link #baseElement} is being stored in the constructor.
      *
      *  Example scenario:
      *  <pre>{@code
@@ -694,5 +695,12 @@ public class BaseWebElement {
         }
         var locator = getUnderlyingLocator(parentBy) + " " + getUnderlyingLocator(childBy);
         return By.cssSelector(locator);
+    }
+
+    public void setBaseElement(WebElement baseElement) {
+        if (this.by != null) {
+            log.debug("This element already has locator information. Assigning a base webelement at this point risks a StaleElementException!!");
+        }
+        this.baseElement = baseElement;
     }
 }
