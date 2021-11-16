@@ -195,21 +195,3 @@ E.G:
     var InputWebElement = new InputWebElement("inputSelector");
 ```
 </details>
-
-
-<details>
-<summary>Reflection change to BaseWebElement#findElements(...)</summary>
-<br>
-
-### Summary
-`findElements(...)` on `BaseWebElement` has been updated its reflection to use constructors `By, By, WebElement` and 
-`By, WebElement` before finally using `WebElement` if no `By` or parent `By` exists. 
-
-### Explanation
-Every element should have as much information stored as possible. Including information on the `By`'s makes
-debugging easier.
-
-### Action
-Any users with custom elements can update them with new constructors from their parent `BaseWebElement(By, By, WebElement`) 
-and `BaseWebElement(By, Webelement)`.
-</details>
