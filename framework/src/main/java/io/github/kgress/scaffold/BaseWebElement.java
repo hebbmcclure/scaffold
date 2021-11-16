@@ -606,24 +606,28 @@ public abstract class BaseWebElement {
 
         By finalCombinedBy = combinedBy;
         elements.forEach(element -> {
+//            try {
+//                if (finalCombinedBy != null) {
+//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
+//                    T newElement = constructor.newInstance(finalCombinedBy, parentBy, element);
+//                    newElements.add(newElement);
+//                } else if (parentBy != null) {
+//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
+//                    T newElement = constructor.newInstance(by, parentBy, element);
+//                    newElements.add(newElement);
+//                } else if (by != null) {
+//                    Constructor<T> constructor = elementClass.getConstructor(By.class, WebElement.class);
+//                    T newElement = constructor.newInstance(by, element);
+//                    newElements.add(newElement);
+//                } else {
+//                    Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+//                    T newElement = constructor.newInstance(element);
+//                    newElements.add(newElement);
+//                }
             try {
-                if (finalCombinedBy != null) {
-                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-                    T newElement = constructor.newInstance(finalCombinedBy, parentBy, element);
-                    newElements.add(newElement);
-                } else if (parentBy != null) {
-                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-                    T newElement = constructor.newInstance(by, parentBy, element);
-                    newElements.add(newElement);
-                } else if (by != null) {
-                    Constructor<T> constructor = elementClass.getConstructor(By.class, WebElement.class);
-                    T newElement = constructor.newInstance(by, element);
-                    newElements.add(newElement);
-                } else {
-                    Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-                    T newElement = constructor.newInstance(element);
-                    newElements.add(newElement);
-                }
+                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+                T newElement = constructor.newInstance(element);
+                newElements.add(newElement);
             } catch (Exception e) {
                 throw new RuntimeException("Could not instantiate Element properly: " + e);
             }
