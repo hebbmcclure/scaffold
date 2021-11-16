@@ -6,10 +6,10 @@ import org.openqa.selenium.WebElement;
 public class WebElementWait {
 
     @Getter
-    public BaseWebElement element;
+    private final BaseWebElement element;
 
     @Getter
-    public WebDriverWrapper webDriverWrapper;
+    private final WebDriverWrapper webDriverWrapper;
 
     WebElementWait(WebDriverWrapper webDriverWrapper, BaseWebElement element) {
         this.webDriverWrapper = webDriverWrapper;

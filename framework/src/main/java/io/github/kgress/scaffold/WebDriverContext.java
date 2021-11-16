@@ -14,9 +14,7 @@ public class WebDriverContext {
     @Getter
     WebDriverManager webDriverManager;
 
-    @Getter
-    @Setter
-    protected String testName;
+    @Getter @Setter public String testName;
 
     public WebDriverContext(WebDriverManager webDriverManager, String testName) {
         this.webDriverManager = webDriverManager;

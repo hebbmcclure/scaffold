@@ -31,14 +31,14 @@ public class WebDriverWrapper {
     private static final Long WINDOW_TIME_OUT_IN_SECONDS = 60L;
 
     @Getter
-    public WebDriver baseWebDriver;
+    WebDriver baseWebDriver;
 
     @Getter
-    public AutomationWait automationWait;
+    AutomationWait automationWait;
 
     @Getter
     @Setter
-    public LinkedList<String> registeredWindows = new LinkedList<>();
+    private LinkedList<String> registeredWindows = new LinkedList<>();
 
     /**
      * Takes a raw {@link WebDriver} instance and wraps it up in a wonderful blanket for thread-safe handling.

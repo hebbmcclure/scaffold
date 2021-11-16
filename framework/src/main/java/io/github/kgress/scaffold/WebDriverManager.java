@@ -7,7 +7,6 @@ import io.github.kgress.scaffold.exception.WebDriverManagerException;
 import io.github.kgress.scaffold.models.GridSessionRequest;
 import io.github.kgress.scaffold.models.GridSessionResponse;
 import io.github.kgress.scaffold.models.enums.desktop.RunType;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.MutableCapabilities;
@@ -76,20 +75,20 @@ public class WebDriverManager {
   private static final String GRID_TEST_SESSION_URI = "/grid/api/testsession";
   private static final String SCREEN_RESOLUTION_CAPABILITY = "screenResolution";
 
-  @Getter(AccessLevel.PRIVATE)
+  @Getter
   private final Object startLock = new Object();
 
-  @Getter(AccessLevel.PRIVATE)
+  @Getter
   private final Object closeLock = new Object();
 
-  @Getter(AccessLevel.PRIVATE)
+  @Getter
   private final DesiredCapabilitiesConfigurationProperties desiredCapabilities;
 
-  @Getter(AccessLevel.PACKAGE)
-  private WebDriverWrapper webDriverWrapper;
-
-  @Getter(AccessLevel.PRIVATE)
+  @Getter
   private final RestTemplate seleniumGridRestTemplate;
+
+  @Getter
+  WebDriverWrapper webDriverWrapper;
 
   @Autowired
   public WebDriverManager(DesiredCapabilitiesConfigurationProperties desiredCapabilities,

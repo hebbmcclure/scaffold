@@ -495,43 +495,6 @@ public abstract class BaseWebElement {
      * @param <T>           The type reference that extends off of {@link BaseWebElement}
      * @return              the element as the specified Type Reference {@link BaseWebElement}
      */
-//    public <T extends BaseWebElement> T findElement(Class<T> elementClass, By by) {
-//        var parentBy = getBy();
-//        By combinedBy = null;
-//        T newElement;
-//
-//        // TODO https://github.com/kgress/scaffold/issues/108
-//        if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
-//            combinedBy = getCombinedByLocator(parentBy, by);
-//        }
-//        try {
-//            // If both of the By locators are css selector, combine them and return a new instance of the Scaffold
-//            // element with it.
-//            if (combinedBy != null) {
-//                Constructor<T> constructor = elementClass.getConstructor(By.class);
-//                newElement = constructor.newInstance(combinedBy);
-//
-//                // In almost all cases, we are going to already have a parentBy locator. So if it's there, combine the
-//                // parentBy and the by to create a new instance of the Scaffold element using the By, By constructor.
-//            } else if (parentBy != null) {
-//                Constructor<T> constructor = elementClass.getConstructor(By.class, By.class);
-//                newElement = constructor.newInstance(by, parentBy);
-//
-//                // This scenario is a potential setup for a future where we can invoke a findElement(...) without
-//                // needing a parent element. This will create a new instance of the Scaffold element using the By
-//                // locator.
-//            } else {
-//                Constructor<T> constructor = elementClass.getConstructor(By.class);
-//                newElement = constructor.newInstance(by);
-//            }
-//        } catch (NoSuchMethodException | InstantiationException |
-//                IllegalAccessException | InvocationTargetException e) {
-//            throw new RuntimeException(String
-//                    .format("Could not instantiate element properly when finding element [%s]: " + e, by));
-//        }
-//        return newElement;
-//    }
-
     public <T extends BaseWebElement> T findElement(Class<T> elementClass, By by) {
         By combinedBy = null;
         var parentBy = getBy();
@@ -604,26 +567,7 @@ public abstract class BaseWebElement {
             elements = getRawWebElement().findElements(by);
         }
 
-        By finalCombinedBy = combinedBy;
         elements.forEach(element -> {
-//            try {
-//                if (finalCombinedBy != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(finalCombinedBy, parentBy, element);
-//                    newElements.add(newElement);
-//                } else if (parentBy != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(by, parentBy, element);
-//                    newElements.add(newElement);
-//                } else if (by != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(by, element);
-//                    newElements.add(newElement);
-//                } else {
-//                    Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-//                    T newElement = constructor.newInstance(element);
-//                    newElements.add(newElement);
-//                }
             try {
                 Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
                 T newElement = constructor.newInstance(element);
@@ -634,29 +578,6 @@ public abstract class BaseWebElement {
         });
         return newElements;
     }
-//    public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
-//        By parentBy = getBy();
-//        List<WebElement> elements;
-//        // Basically here if both locators are css locators, we're going to go ahead and combine them
-//        if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
-//            By combinedBy = getCombinedByLocator(parentBy, by);
-//            elements = getWebDriverWrapper().findElements(combinedBy);
-//        } else {
-//            elements = getRawWebElement().findElements(by);
-//        }
-//        List<T> newElements = new ArrayList<>();
-//        for (WebElement element: elements) {
-//            try {
-//                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-//                T newElement = constructor.newInstance(element);
-//                newElements.add(newElement);
-//            } catch (Exception e) {
-//                throw new RuntimeException("Could not instantiate Element properly: " + e);
-//            }
-//        }
-//        return newElements;
-//    }
-
 
     public String toString() {
         //This will be built according to what we have available to us--there's a small chance it could end up being
