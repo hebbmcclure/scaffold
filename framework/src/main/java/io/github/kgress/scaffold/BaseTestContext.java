@@ -2,7 +2,6 @@ package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.exception.WebDriverContextException;
 import io.github.kgress.scaffold.models.TestInformation;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +20,7 @@ public class BaseTestContext {
     private Map<String, Object> settings = new ConcurrentHashMap<>();
     private final Map<String, TestInformation> testInformationManager = new ConcurrentHashMap<>();
 
-    @Getter(AccessLevel.PACKAGE)
+    @Getter
     WebDriverContext webDriverContext;
 
     BaseTestContext() {
