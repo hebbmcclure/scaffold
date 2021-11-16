@@ -1,6 +1,5 @@
 package io.github.kgress.scaffold;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +11,8 @@ import lombok.Setter;
  */
 public class WebDriverContext {
 
-    @Getter(AccessLevel.PACKAGE)
-    WebDriverManager webDriverManager;
+    @Getter
+    public WebDriverManager webDriverManager;
 
     @Getter @Setter public String testName;
 
