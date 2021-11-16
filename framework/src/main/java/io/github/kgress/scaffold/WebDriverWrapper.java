@@ -31,19 +31,20 @@ public class WebDriverWrapper {
     private static final Long WINDOW_TIME_OUT_IN_SECONDS = 60L;
 
     @Getter
-    final WebDriver baseWebDriver;
+    public WebDriver baseWebDriver;
 
     @Getter
-    private final AutomationWait automationWait;
+    public AutomationWait automationWait;
 
     @Getter
     @Setter
-    private LinkedList<String> registeredWindows = new LinkedList<>();
+    public LinkedList<String> registeredWindows = new LinkedList<>();
 
     /**
      * Takes a raw {@link WebDriver} instance and wraps it up in a wonderful blanket for thread-safe handling.
      * @param baseWebDriver         the root {@link WebDriver}
-     * @param waitTimeoutInSeconds  the timeout we set for the {@link AutomationWait} from {@link DesiredCapabilitiesConfigurationProperties}
+     * @param waitTimeoutInSeconds  the timeout we set for the {@link AutomationWait} from
+     *                              {@link DesiredCapabilitiesConfigurationProperties}
      */
     WebDriverWrapper(WebDriver baseWebDriver, Long waitTimeoutInSeconds) {
         this.baseWebDriver = baseWebDriver;

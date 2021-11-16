@@ -1,16 +1,15 @@
 package io.github.kgress.scaffold;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 
 public class WebElementWait {
 
-    @Getter(AccessLevel.PRIVATE)
-    private final BaseWebElement element;
+    @Getter
+    public BaseWebElement element;
 
-    @Getter(AccessLevel.PRIVATE)
-    private final WebDriverWrapper webDriverWrapper;
+    @Getter
+    public WebDriverWrapper webDriverWrapper;
 
     WebElementWait(WebDriverWrapper webDriverWrapper, BaseWebElement element) {
         this.webDriverWrapper = webDriverWrapper;
