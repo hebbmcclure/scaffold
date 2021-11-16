@@ -2,6 +2,7 @@ package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.exception.WebDriverContextException;
 import io.github.kgress.scaffold.models.TestInformation;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,9 @@ public class BaseTestContext {
     private final ThreadLocal<WebDriverContext> driverManager = new ThreadLocal<>();
     private Map<String, Object> settings = new ConcurrentHashMap<>();
     private final Map<String, TestInformation> testInformationManager = new ConcurrentHashMap<>();
-    @Getter WebDriverContext webDriverContext;
+
+    @Getter(AccessLevel.PACKAGE)
+    WebDriverContext webDriverContext;
 
     BaseTestContext() {
         addSetting(TestContextSetting.IMPLICIT_SCROLLING_ENABLED, false);
