@@ -2,7 +2,6 @@ package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.environment.config.DesiredCapabilitiesConfigurationProperties;
 import io.github.kgress.scaffold.exception.WebDriverWrapperException;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +30,11 @@ public class WebDriverWrapper {
 
     private static final Long WINDOW_TIME_OUT_IN_SECONDS = 60L;
 
-    @Getter(AccessLevel.PACKAGE)
-    WebDriver baseWebDriver;
+    @Getter
+    final WebDriver baseWebDriver;
 
-    @Getter(AccessLevel.PACKAGE)
-    AutomationWait automationWait;
+    @Getter
+    private final AutomationWait automationWait;
 
     @Getter
     @Setter

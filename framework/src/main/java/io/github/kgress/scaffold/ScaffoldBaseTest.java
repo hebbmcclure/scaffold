@@ -115,7 +115,7 @@ public class ScaffoldBaseTest {
      *
      * @return the {@link TestContext}
      */
-    TestContext getTestContext() {
+    private TestContext getTestContext() {
         return TestContext.baseContext();
     }
 
@@ -124,7 +124,7 @@ public class ScaffoldBaseTest {
      *
      * @return the {@link WebDriverContext}
      */
-    WebDriverContext getWebDriverContext() {
+    private WebDriverContext getWebDriverContext() {
         return getTestContext().getWebDriverContext();
     }
 }

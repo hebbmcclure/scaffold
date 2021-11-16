@@ -76,20 +76,20 @@ public class WebDriverManager {
   private static final String GRID_TEST_SESSION_URI = "/grid/api/testsession";
   private static final String SCREEN_RESOLUTION_CAPABILITY = "screenResolution";
 
-  @Getter
+  @Getter(AccessLevel.PRIVATE)
   private final Object startLock = new Object();
 
-  @Getter
+  @Getter(AccessLevel.PRIVATE)
   private final Object closeLock = new Object();
 
-  @Getter
+  @Getter(AccessLevel.PRIVATE)
   private final DesiredCapabilitiesConfigurationProperties desiredCapabilities;
 
-  @Getter
-  private final RestTemplate seleniumGridRestTemplate;
-
   @Getter(AccessLevel.PACKAGE)
-  WebDriverWrapper webDriverWrapper;
+  private WebDriverWrapper webDriverWrapper;
+
+  @Getter(AccessLevel.PRIVATE)
+  private final RestTemplate seleniumGridRestTemplate;
 
   @Autowired
   public WebDriverManager(DesiredCapabilitiesConfigurationProperties desiredCapabilities,
