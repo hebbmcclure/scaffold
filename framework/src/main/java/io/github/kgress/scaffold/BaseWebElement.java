@@ -590,68 +590,68 @@ public abstract class BaseWebElement {
      * @param <T>           The type reference that extends off of {@link BaseWebElement}
      * @return              the element as the specified Type Reference {@link BaseWebElement}
      */
-//    public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
-//        By combinedBy = null;
-//        By parentBy = getBy();
-//        List<WebElement> elements;
-//        List<T> newElements = new ArrayList<>();
-//
-//        // TODO https://github.com/kgress/scaffold/issues/108
-//        if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
-//            combinedBy = getCombinedByLocator(parentBy, by);
-//            elements = getWebDriverWrapper().findElements(combinedBy);
-//        } else {
-//            elements = getRawWebElement().findElements(by);
-//        }
-//
-//        By finalCombinedBy = combinedBy;
-//        elements.forEach(element -> {
-//            try {
-//                if (finalCombinedBy != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(finalCombinedBy, parentBy, element);
-//                    newElements.add(newElement);
-//                } else if (parentBy != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(by, parentBy, element);
-//                    newElements.add(newElement);
-//                } else if (by != null) {
-//                    Constructor<T> constructor = elementClass.getConstructor(By.class, WebElement.class);
-//                    T newElement = constructor.newInstance(by, element);
-//                    newElements.add(newElement);
-//                } else {
-//                    Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-//                    T newElement = constructor.newInstance(element);
-//                    newElements.add(newElement);
-//                }
-//            } catch (Exception e) {
-//                throw new RuntimeException("Could not instantiate Element properly: " + e);
-//            }
-//        });
-//        return newElements;
-//    }
     public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
+        By combinedBy = null;
         By parentBy = getBy();
         List<WebElement> elements;
-        // Basically here if both locators are css locators, we're going to go ahead and combine them
+        List<T> newElements = new ArrayList<>();
+
+        // TODO https://github.com/kgress/scaffold/issues/108
         if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
-            By combinedBy = getCombinedByLocator(parentBy, by);
+            combinedBy = getCombinedByLocator(parentBy, by);
             elements = getWebDriverWrapper().findElements(combinedBy);
         } else {
             elements = getRawWebElement().findElements(by);
         }
-        List<T> newElements = new ArrayList<>();
-        for (WebElement element: elements) {
+
+        By finalCombinedBy = combinedBy;
+        elements.forEach(element -> {
             try {
-                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
-                T newElement = constructor.newInstance(element);
-                newElements.add(newElement);
+                if (finalCombinedBy != null) {
+                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
+                    T newElement = constructor.newInstance(finalCombinedBy, parentBy, element);
+                    newElements.add(newElement);
+                } else if (parentBy != null) {
+                    Constructor<T> constructor = elementClass.getConstructor(By.class, By.class, WebElement.class);
+                    T newElement = constructor.newInstance(by, parentBy, element);
+                    newElements.add(newElement);
+                } else if (by != null) {
+                    Constructor<T> constructor = elementClass.getConstructor(By.class, WebElement.class);
+                    T newElement = constructor.newInstance(by, element);
+                    newElements.add(newElement);
+                } else {
+                    Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+                    T newElement = constructor.newInstance(element);
+                    newElements.add(newElement);
+                }
             } catch (Exception e) {
                 throw new RuntimeException("Could not instantiate Element properly: " + e);
             }
-        }
+        });
         return newElements;
     }
+//    public <T extends BaseWebElement> List<T> findElements(Class<T> elementClass, By by) {
+//        By parentBy = getBy();
+//        List<WebElement> elements;
+//        // Basically here if both locators are css locators, we're going to go ahead and combine them
+//        if(parentBy instanceof By.ByCssSelector && by instanceof By.ByCssSelector) {
+//            By combinedBy = getCombinedByLocator(parentBy, by);
+//            elements = getWebDriverWrapper().findElements(combinedBy);
+//        } else {
+//            elements = getRawWebElement().findElements(by);
+//        }
+//        List<T> newElements = new ArrayList<>();
+//        for (WebElement element: elements) {
+//            try {
+//                Constructor<T> constructor = elementClass.getConstructor(WebElement.class);
+//                T newElement = constructor.newInstance(element);
+//                newElements.add(newElement);
+//            } catch (Exception e) {
+//                throw new RuntimeException("Could not instantiate Element properly: " + e);
+//            }
+//        }
+//        return newElements;
+//    }
 
 
     public String toString() {
