@@ -88,7 +88,7 @@ public class WebDriverManager {
   private final RestTemplate seleniumGridRestTemplate;
 
   @Getter
-  WebDriverWrapper webDriverWrapper;
+  private WebDriverWrapper webDriverWrapper;
 
   @Autowired
   public WebDriverManager(DesiredCapabilitiesConfigurationProperties desiredCapabilities,
