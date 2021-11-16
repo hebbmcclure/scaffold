@@ -12,7 +12,7 @@ import lombok.Setter;
 public class WebDriverContext {
 
     @Getter
-    WebDriverManager webDriverManager;
+    private WebDriverManager webDriverManager;
 
     @Getter @Setter public String testName;
 
