@@ -221,12 +221,13 @@ public class AutomationWait {
     }
 
     /**
-     * A custom wait condition to wait until the page's DOM has switched to the complete status. Useful for page navigation
-     * to wait on returning a new page object until the DOM is loaded.
+     * A custom wait condition to wait until the page's DOM has switched to the complete status. Useful for page
+     * navigation to wait on returning a new page object until the DOM is loaded.
      *
-     * This is already called in {@link BasePage} isOnPage to allow users verification of the web page they've navigated to.
-     * It is unnecessary to call this again after a page has loaded. However, this might come in handy when interactions
-     * on your web page change the state of the dom.
+     * This is already called in {@link BasePage#verifyIsOnPage(BaseWebElement...)} to allow users verification of the
+     * web page they've navigated to.
+     * It is unnecessary to call this again after a page has loaded. However, this might come in handy when
+     * interactions on your web page change the state of the dom.
      *
      * @param setTempTimeout        an option to temporarily set the timeout to a value other than what's set
      *                              in the spring profile
@@ -242,12 +243,13 @@ public class AutomationWait {
     }
 
     /**
-     * A custom wait condition to wait until the page's DOM has switched to the complete status. Useful for page navigation
-     * to wait on returning a new page object until the DOM is loaded.
+     * A custom wait condition to wait until the page's DOM has switched to the complete status. Useful for page
+     * navigation to wait on returning a new page object until the DOM is loaded.
      *
-     * This is already called in {@link BasePage} isOnPage to allow users verification of the web page they've navigated to.
-     * It is unnecessary to call this again after a page has loaded. However, this might come in handy when interactions
-     * on your web page change the state of the dom. Does not set a temp wait time.
+     * This is already called in {@link BasePage#verifyIsOnPage(BaseWebElement...)} to allow users verification of the
+     * web page they've navigated to. It is unnecessary to call this again after a page has loaded. However, this
+     * might come in handy when interactions on your web page change the state of the dom. Does not set a temp
+     * wait time.
      *
      * @return                      as {@link Boolean}
      */
