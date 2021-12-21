@@ -3,7 +3,7 @@
     <parent>
         <groupId>io.github.kgress.scaffold</groupId>
         <artifactId>scaffold</artifactId>
-        <version>3.0.1</version>
+        <version>DEV</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

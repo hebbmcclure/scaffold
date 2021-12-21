@@ -6,7 +6,7 @@
     <url>https://github.com/kgress/scaffold</url>
     <groupId>io.github.kgress.scaffold</groupId>
     <artifactId>scaffold</artifactId>
-    <version>3.0.1</version>
+    <version>DEV</version>
     <modules>
         <module>environment</module>
         <module>framework</module>
