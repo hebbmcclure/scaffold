@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -28,7 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * of {@link BasePage#verifyIsOnPage(BaseWebElement...)} for all of your page objects to ensure the page is loaded
  * and verified prior to interacting with it.
  */
-@Log4j2
+@Slf4j
 @Getter
 public class AutomationWait {
 

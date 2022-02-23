@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -71,7 +71,7 @@ import org.springframework.web.client.RestTemplate;
  * Additional feedback from end users is highly appreciated as we continue to experiment with mobile
  * emulation.
  */
-@Log4j2
+@Slf4j
 @Service
 public class WebDriverManager {
 

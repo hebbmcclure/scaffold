@@ -4,13 +4,13 @@ import io.github.kgress.scaffold.exception.WebDriverContextException;
 import io.github.kgress.scaffold.models.TestInformation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A list of common methods available to the {@link TestContext} singleton - Primarily used for obtaining a WebDriverManager
  * for a specific test.
  */
-@Log4j2
+@Slf4j
 public class BaseTestContext {
 
     // Associates the WebDriver instance to the current thread its operating in

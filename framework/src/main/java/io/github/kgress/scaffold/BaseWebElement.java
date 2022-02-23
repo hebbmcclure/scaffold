@@ -22,7 +22,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -95,7 +95,7 @@ import org.openqa.selenium.logging.LogEntry;
  *  }
  *  </pre>
  */
-@Log4j2
+@Slf4j
 public abstract class BaseWebElement {
 
   @Getter(AccessLevel.PUBLIC)

@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -30,7 +30,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  * in the {@link WebDriver}. It mostly delegates to the underlying WebDriver, but in many cases we'll code up special
  * behavior for it.
  */
-@Log4j2
+@Slf4j
 public class WebDriverWrapper {
 
     private static final Long WINDOW_TIME_OUT_IN_SECONDS = 60L;

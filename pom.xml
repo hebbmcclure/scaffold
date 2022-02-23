@@ -29,7 +29,7 @@
         <org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>1.0.2.Final</org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>
         <org.jboss.spec.javax.transaction.jboss-transaction-api.version>1.1.1.Final</org.jboss.spec.javax.transaction.jboss-transaction-api.version>
         <org.projectlombok.lombok.version>1.18.22</org.projectlombok.lombok.version>
-        <org.slf4j.slf4j-api.version>1.7.32</org.slf4j.slf4j-api.version>
+        <org.slf4j.slf4j-api.version>1.7.36</org.slf4j.slf4j-api.version>
         <uk.org.lidalia.slf4j-test.version>1.2.0</uk.org.lidalia.slf4j-test.version>
 
         <!--Selenium and Testing related-->

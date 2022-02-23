@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import io.github.kgress.scaffold.BaseUnitTest;
 import io.github.kgress.scaffold.MockBaseWebElement;
 import io.github.kgress.scaffold.SharedTestVariables;
-import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -18,7 +17,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 
-@Log4j2
 public class BaseWebElementTests extends BaseUnitTest {
 
     // For testing non findElement or findElements methods

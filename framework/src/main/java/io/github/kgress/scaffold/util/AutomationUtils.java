@@ -5,13 +5,13 @@ import java.io.StringWriter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 
 /**
  * A class for shared Automation Utilities.
  */
-@Log4j2
+@Slf4j
 public class AutomationUtils {
 
     /**

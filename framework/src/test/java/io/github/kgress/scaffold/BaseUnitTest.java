@@ -16,7 +16,7 @@ import io.github.kgress.scaffold.webelements.InputWebElement;
 import io.github.kgress.scaffold.webelements.LinkWebElement;
 import io.github.kgress.scaffold.webelements.RadioWebElement;
 import io.github.kgress.scaffold.webelements.StaticTextWebElement;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -35,7 +35,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 @ActiveProfiles("unit_testing")
-@Log4j2
+@Slf4j
 @Execution(ExecutionMode.CONCURRENT)
 @ExtendWith({
         SpringExtension.class,

@@ -2,7 +2,7 @@ package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.environment.config.DesiredCapabilitiesConfigurationProperties;
 import io.github.kgress.scaffold.exception.WebDriverContextException;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
  * ExtendWith is required for running the testing with Junit5
  * SpringBootTest is required for initializing the Application Context
  */
-@Log4j2
+@Slf4j
 @Component
 public class ScaffoldBaseTest {
 
