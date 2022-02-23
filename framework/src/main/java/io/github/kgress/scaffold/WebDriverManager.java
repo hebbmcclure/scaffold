@@ -1,5 +1,14 @@
 package io.github.kgress.scaffold;
 
+import static io.github.kgress.scaffold.models.enums.desktop.RunType.SAUCE;
+import static io.github.kgress.scaffold.models.enums.desktop.ScreenResolution.ScreenResolutionType.SAUCELABS;
+import static io.github.kgress.scaffold.models.enums.desktop.ScreenResolution.ScreenResolutionType.SELENIUM;
+import static io.github.kgress.scaffold.util.AutomationUtils.getStackTrace;
+import static io.github.kgress.scaffold.util.WebDriverValidationUtil.validateAwsLambdaDesiredCapabilities;
+import static io.github.kgress.scaffold.util.WebDriverValidationUtil.validateRequiredDesktopBrowserCapabilities;
+import static io.github.kgress.scaffold.util.WebDriverValidationUtil.validateRequiredMobileEmulatorCapabilities;
+import static io.github.kgress.scaffold.util.WebDriverValidationUtil.validateRequiredSauceAuth;
+
 import io.github.kgress.scaffold.environment.config.DesiredCapabilitiesConfigurationProperties;
 import io.github.kgress.scaffold.environment.config.SeleniumGridServiceConfiguration;
 import io.github.kgress.scaffold.exception.WebDriverContextException;
@@ -7,9 +16,13 @@ import io.github.kgress.scaffold.exception.WebDriverManagerException;
 import io.github.kgress.scaffold.models.GridSessionRequest;
 import io.github.kgress.scaffold.models.GridSessionResponse;
 import io.github.kgress.scaffold.models.enums.desktop.RunType;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -31,17 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.Optional;
-
-import static io.github.kgress.scaffold.models.enums.desktop.RunType.SAUCE;
-import static io.github.kgress.scaffold.models.enums.desktop.ScreenResolution.ScreenResolutionType.SAUCELABS;
-import static io.github.kgress.scaffold.models.enums.desktop.ScreenResolution.ScreenResolutionType.SELENIUM;
-import static io.github.kgress.scaffold.util.AutomationUtils.getStackTrace;
-import static io.github.kgress.scaffold.util.WebDriverValidationUtil.*;
 
 /**
  * This class manages {@link WebDriverWrapper} instances on a per thread basis. This is useful for
@@ -69,7 +71,7 @@ import static io.github.kgress.scaffold.util.WebDriverValidationUtil.*;
  * Additional feedback from end users is highly appreciated as we continue to experiment with mobile
  * emulation.
  */
-@Slf4j
+@Log4j2
 @Service
 public class WebDriverManager {
 

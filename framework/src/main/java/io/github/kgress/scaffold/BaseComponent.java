@@ -1,33 +1,124 @@
 package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.exception.ComponentException;
+import io.github.kgress.scaffold.exception.WebDriverWrapperException;
 import io.github.kgress.scaffold.util.AutomationUtils;
-import io.github.kgress.scaffold.webelements.ButtonWebElement;
-import io.github.kgress.scaffold.webelements.CheckBoxWebElement;
-import io.github.kgress.scaffold.webelements.DateWebElement;
-import io.github.kgress.scaffold.webelements.DivWebElement;
-import io.github.kgress.scaffold.webelements.DropDownWebElement;
-import io.github.kgress.scaffold.webelements.ImageWebElement;
-import io.github.kgress.scaffold.webelements.InputWebElement;
-import io.github.kgress.scaffold.webelements.LinkWebElement;
-import io.github.kgress.scaffold.webelements.RadioWebElement;
-import io.github.kgress.scaffold.webelements.StaticTextWebElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
 
-@Slf4j
+/**
+ * Components are similar to Page Objects in that they define specific properties of a website.
+ * What makes them different is that they are intended to be properties of a website that are
+ * shared across multiple Page Objects. This allows for easy code sharing across the Page Objects
+ * without copy/pasting code.
+ *
+ * Components can be written in context of a non-list or list. Non-list Components can be
+ * considered "static" in that only one of its kind exists on a web page. For example, a header is
+ * a great example of this. The header will always be a singular defined set of properties,
+ * and you'll never see 4 or 5 of them on the same web page. List Components can be considered
+ * "dynamic" in that any amount of them might be present on the web page. For example, a search
+ * results page is a great example of this. A search results page will show a number of results.
+ * Each result contains the same title, price, and add to cart button. These elements
+ * can be written as a Component, and then built as a `List` from the Page Object.
+ *
+ * An Example non list context component:
+ *
+ * The Component:
+ * <pre>{@code
+ * &#64;Getter
+ * public class HeaderComponent extends BaseComponent {
+ *    private final ImageWebElement pageCompanyIcon = new ImageWebElement(By.cssSelector("#header #company_icon"));
+ *    private final InputWebElement searchInput = InputWebElement(By.cssSelector("#header #search_input"));
+ *    private final ButtonWebElement searchButton = ButtonWebElement(By.cssSelector("#header #search_button"));
+ *    private final LinkWebElement loginLink = LinkWebElement(By.cssSelector("#header #login"));
+ *    private final LinkWebElement registerLink = LinkWebElement(By.cssSelector("#header #register"));
+ *
+ *    // Helper functions for clicking links and returning Page Objects. E.G, clickRegisterLink() may return a RegisterPage Page Object.
+ * }
+ * }
+ * </pre>
+ *
+ * The Page Object:
+ * <pre>{@code
+ * &#64;Getter
+ * public class LoginPage extends BasePage {
+ *    private final HeaderComponent headerComponent = new HeaderComponent();
+ *    private final InputWebElement emailInput = new InputWebElement(By.cssSelector("#emailInput"));
+ *    private final InputWebElement passwordInput = new InputWebElement(By.cssSelector("#passwordInput"));
+ *    private final ButtonWebElement loginButton = new ButtonWebElement(By.cssSelector("#loginButton"));
+ *
+ *    public LoginPage() {
+ *      verifyIsOnPage(getEmailInput(), getPasswordInput());
+ *    }
+ *
+ *    public void clickLoginButton() {
+ *        getLoginButton().click();
+ *    }
+ *
+ *    public void login(String username, String password) {
+ *        getEmailInput().clearAndSendKeys(username);
+ *        getPasswordInput().clearAndSendKeys(password);
+ *        clickLoginButton();
+ *    }
+ * }
+ * }
+ * </pre>
+ */
+@Log4j2
 public class BaseComponent {
 
   /**
-   * Builds a list of a {@link BaseComponent} class.
+   * Builds a list of a {@link BaseComponent}'s using an already found list of elements from a
+   * web page by converting the {@link BaseComponent}'s fields to accessible and then mapping a
+   * new instance of it with a combined locator. The combined locator becomes the prefix, and the
+   * suffix of the locator becomes an :nth-child of the index + 1.
+   *
+   * Usage:
+   *
+   * Example Component:
+   * <pre>{@code
+   * &#64;Getter
+   * public class SearchResultItem extends BaseComponent {
+   *    private final DivWebElement itemName = new DivWebElement(".inventory_item_name");
+   *    private final DivWebElement itemDescription = new DivWebElement(".inventory_item_desc");
+   *    private final DivWebElement itemPrice = new DivWebElement(".inventory_item_price");
+   *    private final ButtonWebElement addToCart = new ButtonWebElement(".btn_primary");
+   *
+   *    public void clickAddToCartButton() {
+   *      getAddToCart().click();
+   *    }
+   * }
+   * }
+   * </pre>
+   *
+   * Example Page Object calling the component's buildComponentList method
+   * <pre>{@code
+   * &#64;Getter
+   * public class SearchResultsPage extends BasePage {
+   *    private final static String INVENTORY_ITEM_SELECTOR = ".inventory_item";
+   *    private final HeaderComponent headerComponent = new HeaderComponent();
+   *    private final DivWebElement inventoryListContainer = new DivWebElement(By.cssSelector(".inventory_list"));
+   *    private final DropDownWebElement sortDropDown = new DropDownWebElement(".product_sort_container");
+   *
+   *    public SearchResultsPage() {
+   *      verifyIsOnPage(getInventoryList());
+   *    }
+   *
+   *    public List<SearchResultItem> getSearchResultsList() {
+   *      var listOfElements = getInventoryListContainer().findElements(DivWebElement.class, INVENTORY_ITEM_SELECTOR);
+   *      return buildComponentList(listOfElements, SearchResultItem.class);
+   *    }
+   * }
+   * }
+   * </pre>
    *
    * @param listOfElements the list of elements to iterate through and convert to components
    * @param component      the {@link BaseComponent} class of the component we are converting the
@@ -82,8 +173,8 @@ public class BaseComponent {
 
             /*
              Create a new instance of the component passed in by the caller. The class
-             extending off of BaseComponent should not have a constructor, otherwise this new
-             instance will fail.
+             extending off of BaseComponent should not have a non-empty constructor, otherwise
+             this new instance will fail to init.
              */
             var componentInstance = component.getConstructor().newInstance();
 
@@ -110,8 +201,9 @@ public class BaseComponent {
 
   /**
    * Converts {@link Field}'s from a class that extends off of {@link BaseComponent} from an
-   * "inaccessible" state to "accessible." We will only modify the access of Scaffold strongly typed
-   * elements. Afterwards, combines the parent and child together.
+   * "inaccessible" state to "accessible." We will only convert Scaffold elements. Access is still
+   * technically modified for every field, but always set back to private. Afterwards, combines
+   * the parent and child together.
    *
    * @param componentInstance  the instance of the {@link BaseComponent}
    * @param fullParentSelector the parent selector being used as the prefix
@@ -122,40 +214,16 @@ public class BaseComponent {
     var classFields = componentInstance.getClass().getDeclaredFields();
 
     Arrays.stream(classFields).forEach(field -> {
-      var elementType = field.getGenericType();
       try {
         field.setAccessible(true);
-        BaseWebElement convertedElement = null;
-        if (elementType.getTypeName().contains("DivWebElement")) {
-          convertedElement = (DivWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("ButtonWebElement")) {
-          convertedElement = (ButtonWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("CheckBoxWebElement")) {
-          convertedElement = (CheckBoxWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("DateWebElement")) {
-          convertedElement = (DateWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("DropDownWebElement")) {
-          convertedElement = (DropDownWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("ImageWebElement")) {
-          convertedElement = (ImageWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("InputWebElement")) {
-          convertedElement = (InputWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("LinkWebElement")) {
-          convertedElement = (LinkWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("RadioWebElement")) {
-          convertedElement = (RadioWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("StaticTextWebElement")) {
-          convertedElement = (StaticTextWebElement) field.get(componentInstance);
-        } else if (elementType.getTypeName().contains("BaseWebElement")) {
-          convertedElement = (BaseWebElement) field.get(componentInstance);
+        if (field.get(componentInstance) instanceof BaseWebElement) {
+          convertField(componentInstance, (BaseWebElement) field.get(componentInstance), field,
+              fullParentSelector);
         } else {
-          log.debug(
-              "Scaffold detected a field during component list building that is not a defined as "
-                  + "a strongly typed element. Skipping modification of field.");
-        }
-        // Only convert the field if it's a scaffold element
-        if (convertedElement != null) {
-          convertField(componentInstance, convertedElement, field, fullParentSelector);
+          log.debug(String.format(
+              "Scaffold detected the field [%s] during component list building that "
+              + "is not a defined as a strongly typed element. Skipping conversion of field.",
+              field));
         }
         field.setAccessible(false);
       } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
@@ -226,9 +294,11 @@ public class BaseComponent {
    * @return {@link WebDriverWrapper}
    */
   private WebDriverWrapper getWebDriverWrapper() {
-    return TestContext.baseContext().getWebDriverContext().getWebDriverManager()
-        .getWebDriverWrapper();
+    var webDriverWrapper = TestContext.baseContext().getWebDriverContext().getWebDriverManager().getWebDriverWrapper();
+    if (webDriverWrapper != null) {
+      return webDriverWrapper;
+    } else {
+      throw new WebDriverWrapperException("Could not find a web driver wrapper for the current thread.");
+    }
   }
-
-
 }

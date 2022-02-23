@@ -100,8 +100,9 @@ For example, a user cannot `sendKeys()` to a Button or a Link. The `ButtonWebEle
 Another advantage of these elements is that they manage all interaction with the WebDriver internally. Most frameworks require the test write/page object maintainer to use the WebDriver to perform all their actions,
 which requires a lot of Selenium knowledge, and can also lead to race conditions, thread-safety issues, and the exposure of unnecessary complexity to the testers.
 
-In the millions of test cases run by Scaffold over the years, there has never been a reported occurrence of a StaleElementReferenceException. This is possible because the framework manages the WebDriver and the WebElements
-internally, in a thread-safe and careful manner.
+In the millions of test cases run by Scaffold over the years, there has never been a reported occurrence of a `StaleElementReferenceException`. This is possible because the framework manages the WebDriver and the WebElements
+internally, in a thread-safe and careful manner. It circumvents the possibility of a `StaleElementReferenceException` by always re-finding the element whenever an interaction occurs on it. This behavior is only possible when using Scaffold strongly typed elements, and not the raw Selenium element.
+It is strongly recommended to always use Scaffold strongly typed elements in order to benefit from all Scaffold feature. Usage of raw Selenium objects will result in unexpected behavior. 
 
 A strongly typed element in scaffold can be one of the following:
 * ButtonWebElement
@@ -127,7 +128,7 @@ To create a page object, follow the same design as Java Beans, [found here](http
 
 The page objects should live within the core module in a page module. E.G: `core > src > main > java > your > groupID > page`
 
-An example page object:
+**An example page object:**
 ```java
 @Getter
 public class LoginPage extends BasePage {
@@ -167,6 +168,43 @@ Let's break down what we see in the example above.
    1. The constructor should always behave like a default constructor, and not include any params. In addition, it should always handle the verification of the page by calling `BasePage`'s `verifyIsOnPage()` method. 
 5. Helper Functions
    1. The Page Object is a good opportunity to include any page specific actions you'd like to abstract. This is yet another level of creating an additional layer that will allow us to maintain our testing a little easier as it scales.
+
+##### Page Object Best Practices
+As mentioned in the [Page Objects](#page-objects) section, it's best to instantiate new strongly typed elements at the class level with a "new" keyword. To expand on this, 
+it's recommended to never invoke `.findElement()` or `.findElements()` on a class variable. This creates an undesirable point of failure in the event the element(s)
+cannot be found during the instantiation of the page; therefore, causing all tests that depend on the Page Object to fail instead of the tests that depend
+on the element to fail. 
+
+Scaffold's Page Object performance is driven by the fact elements are not found during the instantiation of the page. Invoking `findElement()` or `findElements()`
+bypasses this performance gain and the aforementioned point of failure design. 
+
+**An example of incorrect usage:**
+```java
+@Getter
+public class LoginPage extends BasePage {
+
+    private final DivWebElement pageHeader = findElement(DivWebElement.class, By.cssSelector("#someHeader"));
+    private final InputWebElement emailInput = findElement(InputWebElement.class, By.cssSelector("#emailInput"));
+    private final InputWebElement passwordInput = findElement(InputWebElement.class, By.cssSelector("#passwordInput"));
+    private final ButtonWebElement loginButton = findElement(ButtonWebElement.class, By.cssSelector("#loginButton"));
+    private final DivWebElement termsOfServiceListContainer = findElements(DivWebElement.class, By.cssSelector("#tos"));
+    private final List<DivWebElement> termsOfServiceLinks = getTermsOfServiceListContainer.findElements(LinkWebElement.class, By.cssSelector("a"));
+    
+    public LoginPage() {
+      verifyIsOnPage(getEmailInput(), getPasswordInput());
+    }
+
+    public void clickLoginButton() {
+        getLoginButton().click();
+    }
+    
+    public void login(String username, String password) {
+        getEmailInput().clearAndSendKeys(username);
+        getPasswordInput().clearAndSendKeys(password);
+        getLogInButton().click();
+    }
+}
+```
 
 #### Components
 Components are similar to Page Objects in that they define specific properties of a website. What makes them different is that they are intended
@@ -230,9 +268,9 @@ public class LoginPage extends BasePage {
 Let's break down what we see in the example above.
 
 1. `BaseComponent` Extension on `HeaderComponent`
-   1. All Components should inherit functionality from the `BaseComponent` class. Similar to Page Objects, there are some extremely helpful methods there that allow access the same access as mentioned from Page Objects, but also the construction of Component lists. That's covered later.
+   1. All Components should inherit functionality from the `BaseComponent` class. Similar to Page Objects, there are some extremely helpful methods there that allow the same access as mentioned from Page Objects, but also the construction of Component lists. That's covered later.
 2. Properties (or aka Java Fields)
-   1. Exactly the same fundamentals as the Page Object. These fields are the elements that exist on the page. With a "non-list" component, we always want to provide the fully qualified By locator that includes the parent.
+   1. Exactly the same fundamentals as the Page Object. These fields are the elements that exist on the page. With a "non-list" component, we always want to provide the fully qualified `By` locator that includes the parent.
 3. Getters
    1. Standard getter functions are auto generated with the lombok `@Getter` annotation from the class level. Any time we want to interact with an element, we
       always call the getter instead of the raw field.
@@ -299,6 +337,26 @@ Let's break down what we see in the example above.
    1. We can include any additional helper functions here to make our calling code easier to read.
 6. Creating the List
    1. The `SearchResultsPage` handles the creation of the list of Components by invoking the `buildComponentList()` method. It requires a list of the search result elements to iterate through, along with the class of the Component you are building, in order to correctly map each result to a new instance of the Component. Calling code can then interact with the list of results as their own Objects, e.g. `getSearchResultsList().get(0).getItemName()`. It also makes streaming on the list of results much easier, as you can map or filter based on the objects themselves.
+
+##### Component List Best Practices
+As mentioned in the [Page Objects](#page-objects) and [Page Objects Best Practices](#page-object-best-practices) section, it's best to instantiate new 
+strongly typed elements at the class level with a "new" keyword. The same applies to the usage of Components when building lists. Do not invoke `findElements()`
+when creating a list at the class level. Instead, create a new public method that builds the list of elements, and maps them to the component, per the example above.
+
+**An example of incorrect usage:**
+```java
+@Getter
+public class SearchResultsPage extends BasePage {
+  private final HeaderComponent headerComponent = new HeaderComponent();
+  private final DropDownWebElement sortDropDown = new DropDownWebElement(".product_sort_container");
+  private final List<DivWebElement> inventoryList = new DivWebElement(By.cssSelector(".inventory_list").findElements(DivWebElement.class, ".inventory_item"));
+  private final List<SearchResultItem> inventoryItems = buildComponentList(getInventoryList(), SearchResultItem.class);
+
+  public SearchResultsPage() {
+    verifyIsOnPage(getInventoryList());
+  }
+}
+```
 
 #### Navigation
 Your project should have a navigation file that extends `WebDriverNavigation`. This file should live within the core module in a navigation package. E.G: `core > src > main > java > your > groupID > page > Navigation.class`

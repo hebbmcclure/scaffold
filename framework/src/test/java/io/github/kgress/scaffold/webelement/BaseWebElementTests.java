@@ -1,14 +1,24 @@
 package io.github.kgress.scaffold.webelement;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 import io.github.kgress.scaffold.BaseUnitTest;
 import io.github.kgress.scaffold.MockBaseWebElement;
 import io.github.kgress.scaffold.SharedTestVariables;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
+@Log4j2
 public class BaseWebElementTests extends BaseUnitTest {
 
     // For testing non findElement or findElements methods

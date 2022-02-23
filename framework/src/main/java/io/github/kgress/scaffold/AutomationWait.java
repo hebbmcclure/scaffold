@@ -1,18 +1,17 @@
 package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.environment.config.DesiredCapabilitiesConfigurationProperties;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A class of Wait mechanisms useful for testing web applications. These are meant to supplement those available
@@ -29,7 +28,7 @@ import java.util.Map;
  * of {@link BasePage#verifyIsOnPage(BaseWebElement...)} for all of your page objects to ensure the page is loaded
  * and verified prior to interacting with it.
  */
-@Slf4j
+@Log4j2
 @Getter
 public class AutomationWait {
 

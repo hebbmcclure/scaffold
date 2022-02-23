@@ -30,6 +30,7 @@
         <org.jboss.spec.javax.transaction.jboss-transaction-api.version>1.1.1.Final</org.jboss.spec.javax.transaction.jboss-transaction-api.version>
         <org.projectlombok.lombok.version>1.18.22</org.projectlombok.lombok.version>
         <org.slf4j.slf4j-api.version>1.7.32</org.slf4j.slf4j-api.version>
+        <uk.org.lidalia.slf4j-test.version>1.2.0</uk.org.lidalia.slf4j-test.version>
 
         <!--Selenium and Testing related-->
         <org.selenium-java.version>3.141.59</org.selenium-java.version>
@@ -278,6 +279,13 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>uk.org.lidalia</groupId>
+                <artifactId>slf4j-test</artifactId>
+                <version>${uk.org.lidalia.slf4j-test.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <!--This byte buddy version is required in order to resolve an issue with instantiation of mocked classes in Mockito-->
             <dependency>
                 <groupId>net.bytebuddy</groupId>
@@ -407,6 +415,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExcludes>ch.qos.logback:logback-classic</classpathDependencyExcludes>
+                    </classpathDependencyExcludes>
+                </configuration>
             </plugin>
 
             <plugin>

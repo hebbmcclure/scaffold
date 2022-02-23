@@ -37,6 +37,18 @@ public class MockBaseWebElement extends BaseWebElement {
         super(by, parentBy);
     }
 
+    public MockBaseWebElement(WebElement webElement) {
+        super(webElement);
+    }
+
+    public MockBaseWebElement(By by, WebElement webElement) {
+        super(by, webElement);
+    }
+
+    public MockBaseWebElement(By by, By parentBy, WebElement webElement) {
+        super(by, parentBy, webElement);
+    }
+
     @Override
     public void setWebElementWait() {}
 

@@ -1,7 +1,8 @@
 package io.github.kgress.scaffold;
 
 import io.github.kgress.scaffold.environment.config.DesiredCapabilitiesConfigurationProperties;
-import lombok.extern.slf4j.Slf4j;
+import io.github.kgress.scaffold.exception.WebDriverContextException;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -26,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
  * ExtendWith is required for running the testing with Junit5
  * SpringBootTest is required for initializing the Application Context
  */
-@Slf4j
+@Log4j2
 @Component
 public class ScaffoldBaseTest {
 
@@ -116,7 +117,12 @@ public class ScaffoldBaseTest {
      * @return the {@link TestContext}
      */
     private TestContext getTestContext() {
-        return TestContext.baseContext();
+        var testContext = TestContext.baseContext();
+        if (testContext != null) {
+            return testContext;
+        } else {
+            throw new WebDriverContextException("Could not find a base context for the current thread.");
+        }
     }
 
     /**
@@ -125,6 +131,11 @@ public class ScaffoldBaseTest {
      * @return the {@link WebDriverContext}
      */
     private WebDriverContext getWebDriverContext() {
-        return getTestContext().getWebDriverContext();
+        var webDriverContext = getTestContext().getWebDriverContext();
+        if (webDriverContext != null) {
+            return webDriverContext;
+        } else {
+            throw new WebDriverContextException("Could not find a webdriver context for the current thread.");
+        }
     }
 }

@@ -2,14 +2,13 @@ package io.github.kgress.scaffold.webelements;
 
 import io.github.kgress.scaffold.BaseWebElement;
 import io.github.kgress.scaffold.util.AutomationUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Scaffold's strongly typed interpretation of a date element.
@@ -17,7 +16,7 @@ import java.util.Date;
  * This will frequently need to be subclassed in order to work with particular javascript calendar controls, etc., but
  * the intention is to provide a simple way to put dates in fields, which can frequently be tricky.
  */
-@Slf4j
+@Log4j2
 public class DateWebElement extends BaseWebElement {
 
     // Global DateFormat to be used
