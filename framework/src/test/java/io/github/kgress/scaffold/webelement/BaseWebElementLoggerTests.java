@@ -39,9 +39,9 @@ public class BaseWebElementLoggerTests {
     final var logLevel = testLogger.getLoggingEvents().get(0).getLevel();
     assertEquals(Level.WARN, logLevel);
     assertEquals(String.format("It is strongly recommended to use a CSS selector for element "
-        + "[%s] instead of XPATH when instantiating new Scaffold elements. Failure in "
-        + "using a CSS selector may hinder the availability of functionality on the "
-        + "element.", mockBaseWebElement.getBy()), exceptionMessage);
+        + "parent [%s] and element child [%s] instead of XPATH when instantiating new "
+        + "Scaffold elements. Failure in using a CSS selector may hinder the availability "
+        + "of functionality on the element.", null, mockBaseWebElement.getBy()), exceptionMessage);
   }
 
   @Test

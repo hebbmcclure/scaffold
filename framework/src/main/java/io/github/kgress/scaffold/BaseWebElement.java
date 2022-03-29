@@ -15,7 +15,9 @@ import io.github.kgress.scaffold.webelements.ImageWebElement;
 import io.github.kgress.scaffold.webelements.InputWebElement;
 import io.github.kgress.scaffold.webelements.LinkWebElement;
 import io.github.kgress.scaffold.webelements.StaticTextWebElement;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -129,6 +131,8 @@ public abstract class BaseWebElement {
   @Getter
   private WebElementWait webElementWait;
 
+  private boolean isHiddenElement;
+
   /**
    * Create a new element using the supplied {@link By#cssSelector(String)}. This does not call or
    * invoke WebDriver in any way, nor does it try to find the element on a page. The element is used
@@ -143,8 +147,7 @@ public abstract class BaseWebElement {
    * @param cssSelector the string value of the {@link By#cssSelector(String)}
    */
   public BaseWebElement(String cssSelector) {
-    this.setBy(By.cssSelector(cssSelector));
-    setWebElementWait();
+    this(By.cssSelector(cssSelector));
   }
 
   /**
@@ -160,14 +163,7 @@ public abstract class BaseWebElement {
    * @param by the {@link By} locator to be used by this element
    */
   public BaseWebElement(By by) {
-    if (by instanceof By.ByXPath) {
-      log.warn(String.format("It is strongly recommended to use a CSS selector for element "
-          + "[%s] instead of XPATH when instantiating new Scaffold elements. Failure in "
-          + "using a CSS selector may hinder the availability of functionality on the "
-          + "element.", by));
-    }
-    this.setBy(by);
-    setWebElementWait();
+    this(by, (By)null);
   }
 
   /**
@@ -300,6 +296,20 @@ public abstract class BaseWebElement {
     this.setParentBy(parentBy);
     this.setBaseElement(webElement);
     setWebElementWait();
+  }
+
+  /**
+   * This method evaluates annotations provided from a parent node in the object graph.
+   *
+   * @param annotations An array of {@link Annotation}s
+   */
+  public void evaluateAppliedAnnotations(Annotation[] annotations) {
+    Arrays.stream(annotations)
+        .forEach(annotation -> {
+          if (annotation instanceof HiddenElement) {
+            isHiddenElement = true;
+          }
+        });
   }
 
   /**
@@ -468,8 +478,9 @@ public abstract class BaseWebElement {
             a decent amount of time to make sure the element is completely displayed prior to
             interacting with it.
              */
-      getWebElementWait().waitUntilDisplayed();
-
+      if (!isHiddenElement) {
+        getWebElementWait().waitUntilDisplayed();
+      }
             /*
             If the parent by is not null, we should do two separate find element calls to respect
             the fact these two By locators might be of completely different types.

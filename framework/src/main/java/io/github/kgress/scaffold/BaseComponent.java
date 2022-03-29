@@ -8,7 +8,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -74,7 +73,7 @@ import org.openqa.selenium.interactions.Actions;
  * </pre>
  */
 @Slf4j
-public class BaseComponent {
+public class BaseComponent extends WebElementAnnotationProcessor {
 
   /**
    * Builds a list of a {@link BaseComponent}'s using an already found list of elements from a
